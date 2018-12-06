@@ -1,7 +1,12 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    jquery: true
+  },
+  globals: {
+    api: true,
+    md5: true
   },
   'extends': [
     'plugin:vue/essential',

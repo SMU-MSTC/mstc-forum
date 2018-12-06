@@ -1,23 +1,65 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () => import('./views/Home')
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: () => import('./views/About')
+    },
+    {
+      path: '/board/:board_id',
+      name: 'board',
+      component: () => import('./views/Board')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register')
+
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('./views/Logout')
+    },
+    {
+      path: '/user/:user_id',
+      name: 'user',
+      component: () => import('./views/User')
+    },
+    {
+      path: '/post/:board_id',
+      name: 'post',
+      component: () => import('./views/Post')
+    },
+    {
+      path: '/read/:thread_id',
+      name: 'read',
+      component: () => import('./views/Read')
+    },
+    {
+      path: '/404',
+      name: 'not-found',
+      component: () => import('./views/NotFound')
+    },
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })
