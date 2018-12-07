@@ -99,7 +99,6 @@
         user_birth: null,
         user_email: null,
         user_tel: null,
-        user_avatar: null,
         user_intro: null
       }
     },
@@ -113,7 +112,6 @@
           user_birth: null,
           user_email: null,
           user_tel: null,
-          user_avatar: null,
           user_intro: null
         },
         tip: {
@@ -132,7 +130,6 @@
             this.update.user_birth = this.user.user_birth
             this.update.user_email = this.user.user_email
             this.update.user_tel = this.user.user_tel
-            this.update.user_avatar = this.user.user_avatar
             this.update.user_intro = this.user.user_intro
             this.flag = true
           }

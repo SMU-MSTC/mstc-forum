@@ -35,7 +35,6 @@ class User extends Controller
                 $update["user_birth"] = pg_escape_string($_POST["user_birth"]);
                 $update["user_email"] = pg_escape_string($_POST["user_email"]);
                 $update["user_tel"] = pg_escape_string($_POST["user_tel"]);
-                $update["user_avatar"] = pg_escape_string($_POST["user_avatar"]);
                 $update["user_intro"] = pg_escape_string($_POST["user_intro"]);
                 return ($this->model->update($update)) ? true : false;
             } else {

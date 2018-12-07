@@ -2,6 +2,7 @@
 node_modules
 /dist
 /src/api/config.php
+/src/api/.idea
 
 # local env files
 .env.local

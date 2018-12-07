@@ -12,13 +12,13 @@ class Delete extends Controller
 
     public function delete()
     {
-        if (isset($_POST["thread_id"]) || isset($_POST["reply_id"])) {
-            if (isset($_POST["thread_id"])) {
+        if (isset($_POST["thread_id"]) || isset($_POST["reply_id"]))
+            if (isset($_POST["thread_id"]))
                 return (new Threads($this->connection))->delete(pg_escape_string($_POST["thread_id"])) ? true : false;
-            } else if (isset($_POST["reply_id"])) {
+            else
                 return (new Replies($this->connection))->delete(pg_escape_string($_POST["reply_id"])) ? true : false;
-            }
-        }
+        else
+            return false;
     }
 
     public function json()
