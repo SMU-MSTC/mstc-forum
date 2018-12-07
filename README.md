@@ -69,4 +69,9 @@ $ npm run serve
 Then you can access ```http(s)://forum.localhost```.
 
 ### Customize configuration
-If you want to change ```server_name```, don't forget to change ```global.api``` in ```./src/main.js```.
+If you want to change ```server_name```, don't forget to change the value of variable ```global.api``` in ```./src/main.js```.
+
+## Demo page
+Here is a demo view https://forum.airstone42.xyz .
+
+You can login as user ```admin``` with password ```admin```, and your changes will not be saved in database.
