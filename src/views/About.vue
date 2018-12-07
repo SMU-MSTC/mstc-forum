@@ -10,6 +10,8 @@
           <li class="list-group-item">Back-end: PHP</li>
           <li class="list-group-item">Database: Postgresql</li>
         </ul>
+        <hr>
+        <p>For more information, please view <a href="https://github.com/airstone42/php-vue-forum-demo">https://github.com/airstone42/php-vue-forum-demo</a> .</p>
       </div>
     </div>
     <Foot/>
