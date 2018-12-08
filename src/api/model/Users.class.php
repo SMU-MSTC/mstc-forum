@@ -107,6 +107,11 @@ class Users extends Model
         $_SESSION["user_is_admin"] = $user_is_admin;
     }
 
+    public function getUserName($user_id)
+    {
+        return pg_fetch_assoc(pg_query($this->connection,"SELECT user_name FROM users WHERE user_id='$user_id'"));
+    }
+
     public function selectAll($user_id)
     {
         if (isset($user_id)) {

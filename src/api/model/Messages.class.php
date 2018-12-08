@@ -57,11 +57,17 @@ class Messages extends Model
         return pg_query($this->connection, $message_query) ? true : false;
     }
 
+    public function readMark($message_id)
+    {
+        $message_query = "UPDATE messages SET message_is_read = true WHERE message_id='$message_id'";
+        return pg_query($this->connection, $message_query) ? true : false;
+    }
+
     public function selectAll($user_id)
     {
         if(isset($user_id))
         {
-            $message_query = "SELECT * FROM messages WHERE message_to='$user_id'";
+            $message_query = "SELECT * FROM messages WHERE message_to='$user_id' ORDER BY message_id DESC";
             $result = pg_query($this->connection, $message_query);
             return pg_fetch_all($result);
         }
