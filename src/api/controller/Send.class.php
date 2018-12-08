@@ -10,6 +10,17 @@ class Send extends Controller
         $this->model = new Messages($connection);
     }
 
+    public function send()
+    {
+        if(isset($_POST["to"])&&isset($_POST["content"]))
+        {
+            $message = array ("message_from" => $_SESSION["user_id"], "message_to" =>$_POST["to"], "message_content" => ["content"]);
+            return $this->model->seedMessage($message);
+        }
+        else
+            return NULL;
+    }
+
     public function format()
     {
         return;

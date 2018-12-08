@@ -22,8 +22,6 @@ class Messages extends Model
          * @var string $message_to
          * @var string $message_content
          * @var string $message_time
-         * @var string $message_type
-         * @var string $message_is_read
          */
         if(isset($message_reply_id))
         {
@@ -36,7 +34,7 @@ class Messages extends Model
         $message_time = date("Y-m-d h:i:s");
         $message_query = "INSERT INTO messages (message_from, message_to, message_content, message_time, message_type, message_is_read) 
                         VALUES('$message_from', '$message_to', '$message_content', '$message_time', TRUE, FALSE)";
-        pg_query($this->connection, $message_query);
+        return pg_query($this->connection, $message_query) ? true : false;
     }
 
     public function seedMessage($message)
@@ -48,16 +46,13 @@ class Messages extends Model
          * @var string $message_content
          * @var string $message_time
          */
-        if(isset($message_reply_id))
-        {
-            $message_to = (new Replies($this->connection))->getUserId($message_reply_id);
-        }
+        $message_from = (int)$message_from;
         $message_to = (int)$message_to;
         $message_time = date("Y-m-d h:i:s");
         $message_content = pg_escape_string($message_content);
         $message_query = "INSERT INTO messages (message_from, message_to, message_content, message_time, message_type, message_is_read) 
                         VALUES('$message_from', '$message_to', '$message_content', '$message_time', FALSE, FALSE)";
-        pg_query($this->connection, $message_query);
+        return pg_query($this->connection, $message_query) ? true : false;
     }
 
     public function selectAll($user_id)
