@@ -11,10 +11,6 @@ class Message extends Controller {
         $this->array["message"] = $this->model->selectAll($_SESSION["user_id"]);
         $this->format();
     }
-    public function sendMessage()
-    {
-
-    }
 
     public function format()
     {
