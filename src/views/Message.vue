@@ -1,8 +1,8 @@
 <template>
   <div class="message">
     <Navigator :session="session"/>
-    <div class="container" >
-      <div class="accordion" v-if="session.user_id != null" id="MessageBox">
+    <div class="container" v-if="session.user_id != null">
+      <div class="accordion"  id="MessageBox">
         <div class="card">
           <div class="card-header" id="sysnotice">
             <h5 class="mb-0">
@@ -45,7 +45,7 @@
                     <router-link :to="'/send/'+ message.message_from" v-if="message.message_is_read === false">
                       <b>{{message.message_content}}</b>
                     </router-link>
-                    <router-link :to="'/send/'+ message.message_from" v-else-if=" message.message_is_read === true">
+                    <router-link :to="'/user/'+ message.message_from" v-else-if=" message.message_is_read === true">
                       {{message.message_content}}
                     </router-link>
                   </div>

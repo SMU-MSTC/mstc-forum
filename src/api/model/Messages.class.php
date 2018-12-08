@@ -47,6 +47,7 @@ class Messages extends Model
          * @var string $message_to
          * @var string $message_content
          * @var string $message_time
+         * @var string $message_type
          */
         $message_from = (int)$message_from;
         $message_to = (int)$message_to;
