@@ -53,6 +53,11 @@ export default new Router({
       component: () => import('./views/Read')
     },
     {
+      path: '/favorites',
+      name: 'favorites',
+      component: () => import('./views/Favorites')
+    },
+    {
       path: '/404',
       name: 'not-found',
       component: () => import('./views/NotFound')

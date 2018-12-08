@@ -13,8 +13,12 @@
         </div>
         <div class="row">
           <div class="col">
-            <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin === true" class="btn btn-danger float-left">&times; Delete</button>
-            <router-link :to="'/read/' + thread.thread_id" class="btn btn-secondary float-right" role="button">View &raquo;</router-link>
+            <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin === true" class="btn btn-danger ">&times; Delete</button>
+            <p class="float-right">
+              <button v-if="thread.favorite === true && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
+              <button v-if="thread.favorite === false && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
+              <router-link :to="'/read/' + thread.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
+            </p>
           </div>
         </div>
         <div v-if="thread.thread_visible === false" class="tip row">
@@ -44,7 +48,8 @@
           thread_visible: null,
           user_name: null,
           user_id: null,
-          thread_time: null
+          thread_time: null,
+          favorite: null,
         }
       }
     },
@@ -90,6 +95,12 @@
             }, 2000)
           }
         })
+      },
+      favorite(thread_id) {
+        const self = this
+        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
+          self.$emit('reload')
+        })
       }
     }
   }
@@ -113,5 +124,10 @@
   .threads .tip {
     padding-top: 30px;
     padding-bottom: 30px;
+  }
+
+  .threads .btn {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 </style>
