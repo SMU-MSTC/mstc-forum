@@ -53,9 +53,19 @@ export default new Router({
       component: () => import('./views/Read')
     },
     {
-      path: '/favorites',
-      name: 'favorites',
-      component: () => import('./views/Favorites')
+        path: '/favorites',
+        name: 'favorites',
+        component: () => import('./views/Favorites')
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: () => import('./views/Message')
+    },
+    {
+      path: '/send',
+      name: 'send',
+      component: () => import('./views/Send')
     },
     {
       path: '/404',
