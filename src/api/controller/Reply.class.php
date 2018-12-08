@@ -14,7 +14,11 @@ class Reply extends Controller
     public function reply()
     {
         if (isset($_POST["reply_id"]))
-            $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_id" => $_POST["reply_id"], "reply_content" => $_POST["reply_content"]);
+        {
+            $reply = array("thread_id" => $_POST["thread_id"], "reply_id" => $_POST["reply_id"], "reply_content" => $_POST["reply_content"]);
+            $message = array("message_reply_id" => $_POST["reply_id"], "message_from" => $_SESSION["user_id"]);
+            (new Messages($this->connection))->replyMessage($message);
+        }
         else
             $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_content" => $_POST["reply_content"]);
         return $this->model->reply($reply);
