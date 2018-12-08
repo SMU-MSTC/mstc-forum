@@ -21,8 +21,9 @@ class Logout extends Controller
 
     public function json()
     {
-        parent::json();
         $this->logout();
+        $this->set();
+        parent::json();
     }
 
     public function format()

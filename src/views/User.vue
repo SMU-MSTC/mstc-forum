@@ -35,7 +35,6 @@
           user_birth: null,
           user_email: null,
           user_tel: null,
-          user_avatar: null,
           user_intro: null
         }
       }

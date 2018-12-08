@@ -41,6 +41,7 @@
     },
     beforeMount () {
       const self = this
+      self.$emit('update')
       $.get(api + '/', (data) => {
         self.boards = data.boards
       })

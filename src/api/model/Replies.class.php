@@ -53,4 +53,12 @@ class Replies extends Model
             return NULL;
     }
 
+    public function getUserId($reply_id)
+    {
+        $reply_query = "SELECT user_id FROM replies WHERE reply_id='$reply_id'";
+        $result = pg_query($this->connection, $reply_query);
+        $result = pg_fetch_assoc($result)["user_id"];
+        return $result;
+    }
+
 }
