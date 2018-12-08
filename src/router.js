@@ -53,6 +53,16 @@ export default new Router({
       component: () => import('./views/Read')
     },
     {
+      path: '/message',
+      name: 'message',
+      component: () => import('./views/Message')
+    },
+    {
+      path: '/send',
+      name: 'send',
+      component: () => import('./views/Send')
+    },
+    {
       path: '/404',
       name: 'not-found',
       component: () => import('./views/NotFound')
