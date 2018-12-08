@@ -31,7 +31,7 @@ class Threads extends Model
 
     public function delete($thread_id)
     {
-        $delete_query = "UPDATE threads SET thread_visible = FALSE WHERE thread_id = '$thread_id'";
+        $delete_query = "UPDATE threads SET thread_visible = FALSE WHERE thread_id='$thread_id'";
         return pg_query($this->connection, $delete_query) ? true : false;
     }
 
@@ -42,7 +42,7 @@ class Threads extends Model
             $replies = pg_fetch_all(pg_query($this->connection, "SELECT * FROM replies WHERE thread_id='$thread_id'"));
             return array("thread" => $thread, "replies" => $replies);
         } else
-            return NULL;
+            return null;
     }
 
 }

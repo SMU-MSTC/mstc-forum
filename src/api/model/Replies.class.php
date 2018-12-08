@@ -19,12 +19,12 @@ class Replies extends Model
     {
         if (isset($reply)) {
             /**
+             * @var int $user_id
              * @var int $thread_id
              * @var int $reply_id
              * @var string $reply_content
              */
             extract($reply);
-            $user_id = $_SESSION["user_id"];
             $reply_time = date("Y-m-d h:i:s");
             $reply_content = pg_escape_string($reply_content);
             if (isset($reply_id)) {
@@ -41,16 +41,17 @@ class Replies extends Model
 
     public function delete($reply_id)
     {
-        $delete_query = "UPDATE replies SET reply_visible = FALSE WHERE reply_id = '$reply_id'";
+        $delete_query = "UPDATE replies SET reply_visible = FALSE WHERE reply_id='$reply_id'";
         return pg_query($this->connection, $delete_query) ? true : false;
     }
 
     public function selectAll($reply_id)
     {
         if (isset($reply_id)) {
-            return pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM replies WHERE reply_id='$reply_id'"));
+            $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM replies WHERE reply_id='$reply_id'"));
+            return ($result) ? $result : null;
         } else
-            return NULL;
+            return null;
     }
 
 }

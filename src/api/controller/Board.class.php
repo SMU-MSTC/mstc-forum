@@ -15,20 +15,24 @@ class Board extends Controller
 
     public function format()
     {
-        $this->array["board"]["info"]["board_id"] = (int)$this->array["board"]["info"]["board_id"];
-        foreach ($this->array["board"]["threads"] as $key => &$thread) {
-            $thread["thread_id"] = (int)$thread["thread_id"];
-            $thread["user_id"] = (int)$thread["user_id"];
-            $thread["user_name"] = (new Users($this->connection))->selectAll($thread["user_id"])["user_name"];
-            $thread["board_id"] = (int)$thread["board_id"];
-            $thread["thread_time"] = date("Y-m-d h:i:s", strtotime($thread["thread_time"]));
-            if ($thread["thread_visible"] === "f")
-                $thread["thread_visible"] = false;
-            elseif ($thread["thread_visible"] === "t")
-                $thread["thread_visible"] = true;
-            if ($thread["thread_visible"] === false)
-                unset($this->array["board"]["threads"][$key]);
-            $this->array["board"]["threads"] = array_values($this->array["board"]["threads"]);
+        if ($this->array["board"]) {
+            $this->array["board"]["info"]["board_id"] = (int)$this->array["board"]["info"]["board_id"];
+            foreach ($this->array["board"]["threads"] as $key => &$thread) {
+                $thread["thread_id"] = (int)$thread["thread_id"];
+                $thread["user_id"] = (int)$thread["user_id"];
+                $thread["user_name"] = (new Users($this->connection))->selectAll($thread["user_id"])["user_name"];
+                $thread["board_id"] = (int)$thread["board_id"];
+                $thread["thread_time"] = date("Y-m-d h:i:s", strtotime($thread["thread_time"]));
+                if ($thread["thread_visible"] === "f")
+                    $thread["thread_visible"] = false;
+                elseif ($thread["thread_visible"] === "t")
+                    $thread["thread_visible"] = true;
+                if (!$thread["thread_visible"])
+                    unset($this->array["board"]["threads"][$key]);
+                if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== null)
+                    $thread["favorite"] = (new Favorites($this->connection))->isFavorite($_SESSION["user_id"], $thread["thread_id"]);
+                $this->array["board"]["threads"] = array_values($this->array["board"]["threads"]);
+            }
         }
     }
 

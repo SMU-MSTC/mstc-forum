@@ -18,7 +18,11 @@
               <router-link :to="'/board/' + thread.board_id" class="btn btn-default float-left" role="button">&laquo; Back to {{thread.board_name}}</router-link>
             </div>
             <div v-if="session.user_id !== null" class="col">
-              <button v-on:click="threadOnClick()" class="btn btn-primary float-right" type="button">Reply &raquo;</button>
+              <p class="float-right">
+                <button v-if="thread.favorite === true && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
+                <button v-if="thread.favorite === false && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
+                <button v-on:click="threadOnClick()" class="btn btn-primary" type="button">Reply &raquo;</button>
+              </p>
             </div>
           </div>
           <ReplyForm v-if="thread.thread_visible === false" :thread_id="thread.thread_id" @reload="reload" />
@@ -118,7 +122,8 @@
           thread_title: null,
           thread_content: null,
           thread_time: null,
-          thread_visible: null
+          thread_visible: null,
+          favorite: null
         },
         replies: {
           reply: {
@@ -200,6 +205,12 @@
           }
         })
       },
+      favorite(thread_id) {
+        const self = this
+        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
+          self.reload()
+        })
+      },
       reload() {
         const self = this
         const thread_id = this.$route.params.thread_id
@@ -228,6 +239,11 @@
 
   .read-page .thread {
     background-color: #e9ecef;
+  }
+
+  .read-page .btn {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .read-page .thread .row:first-child {

@@ -15,9 +15,12 @@ class Boards extends Model
         if (isset($board_id)) {
             $threads = pg_fetch_all(pg_query($this->connection, "SELECT * FROM threads WHERE board_id='$board_id' ORDER BY thread_time DESC"));
             $info = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM boards WHERE board_id='$board_id'"));
-            return array("info" => $info, "threads" => $threads);
+            if ($info)
+                return array("info" => $info, "threads" => $threads);
+            else
+                return null;
         } else
-            return parent::selectAll(NULL);
+            return parent::selectAll(null);
     }
 
 }

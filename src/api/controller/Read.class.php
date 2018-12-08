@@ -21,6 +21,8 @@ class Read extends Controller
         $this->array["thread"]["board_id"] = (int)$this->array["thread"]["board_id"];
         $this->array["thread"]["board_name"] = (new Boards($this->connection))->selectAll($this->array["thread"]["board_id"])["info"]["board_name"];
         $this->array["thread"]["thread_time"] = date("Y-m-d h:i:s", strtotime($this->array["thread"]["thread_time"]));
+        if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== null)
+            $this->array["thread"]["favorite"] = (new Favorites($this->connection))->isFavorite($_SESSION["user_id"], $this->array["thread"]["thread_id"]);
         if ($this->array["thread"]["thread_visible"] === "f")
             $this->array["thread"]["thread_visible"] = false;
         elseif ($this->array["thread"]["thread_visible"])
@@ -47,10 +49,10 @@ class Read extends Controller
                 $reply["reply_reply_user_name"] = (new Users($this->connection))->selectAll($reply_reply["user_id"])["user_name"];
                 $reply["reply_reply_time"] = date("Y-m-d h:i:s", strtotime($reply_reply["reply_time"]));
             }
-            if ($reply["reply_visible"] === false)
+            if (!$reply["reply_visible"])
                 unset($this->array["replies"][$key]);
         }
-        if ($this->array["replies"] === false)
+        if (!$this->array["replies"])
             unset($this->array["replies"]);
         $this->array["replies"] = array_values($this->array["replies"]);
     }
