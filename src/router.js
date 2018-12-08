@@ -58,7 +58,7 @@ export default new Router({
       component: () => import('./views/Message')
     },
     {
-      path: '/send',
+      path: '/send:user_id',
       name: 'send',
       component: () => import('./views/Send')
     },
