@@ -151,6 +151,7 @@
           }, 2000)
         } else {
           this.update.user_password = md5(this.update.user_password)
+          this.update.new_password = md5(this.update.new_password)
           $.post(api + '/user?user_id=' + user_id, this.update).done((data) => {
             if (data.toString() === '1') {
               self.tip.status = 'success'
