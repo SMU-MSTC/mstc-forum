@@ -6,6 +6,7 @@
         <div class="row">
           <div class="col">
             <h1 v-if="favorites">Your favorites</h1>
+            <div v-else-if="session.user_id === null" class="alert alert-danger">Please login first.</div>
             <h1 v-else>You have no favorites.</h1>
           </div>
         </div>

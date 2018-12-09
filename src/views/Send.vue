@@ -19,16 +19,6 @@
       </div>
     </div>
     <div v-else class="send-page">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <h2>Send message to:</h2>
-            <p class="float-right">
-              <router-link :to="'/user/' + send.to">{{send.to}}</router-link>
-            </p>
-          </div>
-        </div>
-      </div>
       <div class="alert alert-danger">Please login first.</div>
     </div>
     <Foot />

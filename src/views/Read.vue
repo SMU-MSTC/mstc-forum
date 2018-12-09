@@ -17,7 +17,7 @@
             <div class="col">
               <router-link :to="'/board/' + thread.board_id" class="btn btn-default float-left" role="button">&laquo; Back to {{thread.board_name}}</router-link>
             </div>
-            <div v-if="session.user_id !== null" class="col">
+            <div v-if="session.user_id !== null">
               <p class="float-right">
                 <button v-if="thread.favorite === true && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
                 <button v-if="thread.favorite === false && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
