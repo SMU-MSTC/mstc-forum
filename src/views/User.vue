@@ -1,8 +1,8 @@
 <template>
   <div class="user">
-    <Navigator :session="session"/>
-    <UserComponent :session="session" :user="user"/>
-    <Foot/>
+    <Navigator :session="session" />
+    <UserComponent :session="session" :user="user" />
+    <Foot />
   </div>
 </template>
 

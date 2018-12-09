@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <Navigator :session="session"/>
+    <Navigator :session="session" />
     <div class="register-page">
       <form @submit.prevent="submit" class="register-form">
         <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
@@ -27,7 +27,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
       </form>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 

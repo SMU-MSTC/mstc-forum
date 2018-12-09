@@ -1,22 +1,34 @@
 <template>
-  <div class="post">
+  <div class="send">
     <Navigator :session="session" />
-    <BoardJumbotron :info="board" />
-    <div v-if="session.user_id != null" class="post-page">
+    <div class="jumbotron">
       <div class="container">
-        <form @submit.prevent="submit" class="post-form">
-          <label for="thread_title" class="sr-only">Thread Title</label>
-          <input v-model="post.thread_title" type="text" id="thread_title" class="form-control" placeholder="Thread Title" required autofocus>
-          <label for="thread_content" class="sr-only">Thread Content</label>
-          <textarea v-model="post.thread_content" type="text" id="thread_content" class="form-control" rows="3" placeholder="Thread Content"></textarea>
+        <h1>Sending message to <router-link :to="'/user/' + send.to">{{send.user_name}}</router-link></h1>
+      </div>
+    </div>
+    <div v-if="session.user_id != null" class="send-page">
+      <div class="container">
+        <form @submit.prevent="submit" class="send-form">
+          <label for="content" class="sr-only">Thread Content</label>
+          <textarea v-model="send.content" type="text" id="content" class="form-control" rows="3" placeholder="Content" required autofocus></textarea>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
         </form>
       </div>
     </div>
-    <div v-else class="post-page">
+    <div v-else class="send-page">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h2>Send message to:</h2>
+            <p class="float-right">
+              <router-link :to="'/user/' + send.to">{{send.to}}</router-link>
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="alert alert-danger">Please login first.</div>
     </div>
     <Foot />
@@ -25,14 +37,11 @@
 
 <script>
   import Navigator from '../components/Navigator'
-  import BoardJumbotron from '../components/BoardJumbotron'
   import Foot from '../components/Foot'
-
   export default {
-    name: 'post',
+    name: 'send',
     components: {
       Navigator,
-      BoardJumbotron,
       Foot
     },
     props: {
@@ -44,14 +53,10 @@
     },
     data () {
       return {
-        board: {
-          board_id: null,
-          board_name: null,
-          board_intro: null
-        },
-        post: {
-          thread_title: null,
-          thread_content: null
+        send: {
+          to: null,
+          user_name: null,
+          content: null
         },
         tip: {
           status: null,
@@ -62,21 +67,21 @@
     methods: {
       submit () {
         const self = this
-        const board_id = this.$route.params.board_id
-        $.post(api + '/post?board_id=' + board_id, this.post).done((data) => {
+        const user_id = this.$route.params.user_id
+        $.post(api + '/send?user_id=' + user_id, this.send).done((data) => {
           if (data.toString() === '1') {
             self.tip.status = 'success'
-            self.tip.message = 'Post successfully!'
+            self.tip.message = 'Send successfully!'
             self.$emit('update')
             setTimeout(() => {
               self.tip.message = 'Redirecting in 2 seconds.'
             }, 1000)
             setTimeout(() => {
-              self.$router.push('/board/' + board_id)
+              self.$router.push('/user/' + user_id)
             }, 2000)
           } else if (data.toString() === '0') {
             self.tip.status = 'fail'
-            self.tip.message = 'Post failed!!'
+            self.tip.message = 'Send failed!!'
             setTimeout(() => {
               self.tip.status = null
               self.tip.message = null
@@ -87,21 +92,21 @@
     },
     beforeMount () {
       const self = this
-      const board_id = this.$route.params.board_id
-      $.get(api + '/post?board_id=' + board_id, (data) => {
-        self.board = data.board
+      this.send.to = this.$route.params.user_id
+      $.get(api + '/user?user_id=' + this.send.to, (data) => {
+        self.send.user_name = data.user.user_name
       })
     }
   }
 </script>
 
 <style scoped>
-  .post-page {
+  .send-page {
     height: 100%;
     padding-bottom: 120px;
   }
 
-  .post-form {
+  .send-form {
     width: 100%;
     max-width: 960px;
     padding: 15px;
@@ -115,7 +120,7 @@
     margin: auto;
   }
 
-  .post-form .form-control {
+  .send-form .form-control {
     position: relative;
     box-sizing: border-box;
     height: auto;
@@ -123,7 +128,7 @@
     font-size: 16px;
   }
 
-  .post-form .form-control:focus {
+  .send-form .form-control:focus {
     z-index: 2;
   }
 
@@ -133,11 +138,11 @@
     border-bottom-left-radius: 0;
   }
 
-  .post-form textarea {
+  .send-form textarea {
     margin-bottom: 40px;
   }
 
-  .post-form .alert {
+  .send-form .alert {
     margin-bottom: 40px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;

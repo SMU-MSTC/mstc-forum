@@ -39,7 +39,7 @@ class Favorite extends Controller
             foreach ($this->array["favorites"] as $key => &$favorite) {
                 $favorite["thread_id"] = (int)$favorite["thread_id"];
                 $favorite["user_id"] = (int)$favorite["user_id"];
-                $favorite["user_name"] =  (new Users($this->connection))->selectAll($favorite["user_id"])["user_name"];
+                $favorite["user_name"] = (new Users($this->connection))->selectAll($favorite["user_id"])["user_name"];
                 $favorite["board_id"] = (int)(new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["board_id"];
                 $favorite["board_name"] = (new Boards($this->connection))->selectAll($favorite["board_id"])["info"]["board_name"];
                 $favorite["thread_title"] = (new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["thread_title"];

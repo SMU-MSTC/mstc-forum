@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <Navigator :session="session"/>
-    <Jumbotron/>
-    <HomeComponent :boards="boards"/>
+    <Navigator :session="session" />
+    <Jumbotron />
+    <HomeComponent :boards="boards" />
     <Foot/>
   </div>
 </template>

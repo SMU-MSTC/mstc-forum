@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <Navigator :session="session"/>
+    <Navigator :session="session" />
     <div class="jumbotron">
       <div class="container">
         <h1 class="display-3">Forum Demo</h1>
@@ -14,7 +14,7 @@
         <p>For more information, please view <a href="https://github.com/airstone42/php-vue-forum-demo">https://github.com/airstone42/php-vue-forum-demo</a> .</p>
       </div>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 

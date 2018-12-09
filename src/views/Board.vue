@@ -1,9 +1,9 @@
 <template>
   <div class="board">
-    <Navigator :session="session"/>
-    <BoardJumbotron :info="board.info"/>
-    <BoardComponent :session="session" :info="board.info" :threads="board.threads" @reload="reload"/>
-    <Foot/>
+    <Navigator :session="session" />
+    <BoardJumbotron :info="board.info" />
+    <BoardComponent :session="session" :info="board.info" :threads="board.threads" @reload="reload" />
+    <Foot />
   </div>
 </template>
 

@@ -12,12 +12,11 @@ class Send extends Controller
 
     public function send()
     {
-        if(isset($_POST["to"])&&isset($_POST["content"]))
-        {
-            $message = array ("message_from" => $_SESSION["user_id"], "message_to" =>$_POST["to"], "message_content" => $_POST["content"]);
-            return $this->model->seedMessage($message);
-        }
-        else
+        if (isset($_POST["to"]) && isset($_POST["content"])) {
+            $message_content = pg_escape_string($_POST["content"]);
+            $message = array("message_from" => $_SESSION["user_id"], "message_to" => $_POST["to"], "message_content" => $message_content);
+            return $this->model->send($message);
+        } else
             return NULL;
     }
 

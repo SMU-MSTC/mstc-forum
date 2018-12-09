@@ -2,7 +2,8 @@
 require_once __DIR__ . "/../controller/Controller.class.php";
 require_once __DIR__ . "/../model/Messages.class.php";
 
-class Message extends Controller {
+class Message extends Controller
+{
 
     public function __construct($connection)
     {
@@ -14,8 +15,7 @@ class Message extends Controller {
 
     public function format()
     {
-        foreach ($this->array["message"] as &$message)
-        {
+        foreach ($this->array["message"] as &$message) {
             $message["message_id"] = (int)$message["message_id"];
             $message["message_from"] = (int)$message["message_from"];
             $message["message_to"] = (int)$message["message_to"];
@@ -29,11 +29,13 @@ class Message extends Controller {
             elseif ($message["message_is_read"] === "f")
                 $message["message_is_read"] = false;
             if ($message["message_type"] === false)
-                $message["message_from_name"] = (new Users($this->connection))->getUserName($message["message_from"])["user_name"];
-            else
-                $message["message_from_name"] = NULL;
-//        $this->array["message"]["message_num"] = count($this->array["message"]);
-            $this->model->readMark($message["message_id"]);
+                $message["message_from_user_name"] = (new Users($this->connection))->selectAll($message["message_from"])["user_name"];
+            else {
+                $message["message_from_thread_id"] = (int)$this->model->select($message["message_from"], $message["message_content"], $message["message_time"])["thread_id"];
+                $message["message_from_thread_title"] = (new Threads($this->connection))->selectAll($message["message_from_thread_id"])["thread"]["thread_title"];
+                $message["message_from_user_name"] = (new Users($this->connection))->selectAll($message["message_from"])["user_name"];
+            }
+            $this->model->read($message["message_id"]);
         }
     }
 
