@@ -25,7 +25,7 @@
       thread_id: null,
       reply_id: null
     },
-    data () {
+    data() {
       return {
         reply_content: null,
         tip: {
@@ -35,7 +35,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         const reply = {
           thread_id: self.thread_id,

@@ -27,6 +27,11 @@ export default new Router({
       component: () => import('./views/Update')
     },
     {
+      path: '/create',
+      name: 'create',
+      component: () => import('./views/Create')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('./views/Register')

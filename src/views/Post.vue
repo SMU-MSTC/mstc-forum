@@ -42,7 +42,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         board: {
           board_id: null,
@@ -60,7 +60,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         const board_id = this.$route.params.board_id
         $.post(api + '/post?board_id=' + board_id, this.post).done((data) => {
@@ -85,7 +85,7 @@
         })
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       const board_id = this.$route.params.board_id
       $.get(api + '/post?board_id=' + board_id, (data) => {

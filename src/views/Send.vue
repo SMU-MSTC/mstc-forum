@@ -41,7 +41,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         send: {
           to: null,
@@ -55,7 +55,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         const user_id = this.$route.params.user_id
         $.post(api + '/send?user_id=' + user_id, this.send).done((data) => {
@@ -80,7 +80,7 @@
         })
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       this.send.to = this.$route.params.user_id
       $.get(api + '/user?user_id=' + this.send.to, (data) => {

@@ -5,7 +5,7 @@
 <script>
   export default {
     name: 'logout',
-    beforeMount () {
+    beforeMount() {
       $.get(api + '/logout')
       this.$emit('update')
       this.$router.push('/')

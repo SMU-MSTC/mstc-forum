@@ -48,7 +48,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         register: {
           user_name: null,
@@ -64,7 +64,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         if (self.register.user_password !== self.register.confirm_password) {
           self.tip.status = 'warn'

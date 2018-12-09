@@ -28,7 +28,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         boards: {
           board: {
@@ -39,7 +39,7 @@
         }
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       self.$emit('update')
       $.get(api + '/', (data) => {

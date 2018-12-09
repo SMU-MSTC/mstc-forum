@@ -102,7 +102,7 @@
         user_intro: null
       }
     },
-    data () {
+    data() {
       return {
         update: {
           user_name: null,
@@ -122,7 +122,7 @@
       }
     },
     methods: {
-      validate () {
+      validate() {
         if (this.session.user_id === this.user.user_id) {
           if (this.flag === false) {
             this.update.user_name = this.user.user_name
@@ -137,7 +137,7 @@
         } else
           return false
       },
-      submit () {
+      submit() {
         const self = this
         const user_id = this.session.user_id
         if (self.update.new_password === self.update.user_password) {

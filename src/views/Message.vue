@@ -25,7 +25,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         messages: {
           message: {
@@ -43,7 +43,7 @@
         }
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       $.get(api + '/message', (data) => {
         self.messages = data.message

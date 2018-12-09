@@ -21,6 +21,7 @@
               <router-link :to="'/user/' + session.user_id" class="dropdown-item">Update information</router-link>
               <router-link to="/favorites" class="dropdown-item">View favorites </router-link>
               <router-link to="/message" class="dropdown-item">View messages</router-link>
+              <router-link to="/create" v-if="session.user_name === 'admin'" class="dropdown-item">Create new board</router-link>
             </div>
           </li>
           <li class="nav-item">

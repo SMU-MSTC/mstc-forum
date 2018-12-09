@@ -35,7 +35,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         login: {
           user_name: null,
@@ -48,7 +48,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         this.login.user_password = md5(this.login.user_password)
         $.post(api + '/login', this.login).done((data) => {

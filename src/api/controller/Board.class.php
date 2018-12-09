@@ -13,6 +13,16 @@ class Board extends Controller
         $this->format();
     }
 
+    public function create()
+    {
+        if ($_SESSION["user_name"] === "admin" && isset($_POST["board_name"]) && isset($_POST["board_intro"])) {
+            $board_name = pg_escape_string($_POST["board_name"]);
+            $board_intro = pg_escape_string($_POST["board_intro"]);
+            return $this->model->create($board_name, $board_intro) ? true : false;
+        } else
+            return false;
+    }
+
     public function update()
     {
         if ($_SESSION["user_name"] === "admin" && isset($_GET["board_id"]) && isset($_POST["board_name"]) && isset($_POST["board_intro"])) {
@@ -27,6 +37,11 @@ class Board extends Controller
     {
         if ($_SESSION["user_name"] === "admin" && isset($_GET["board_id"]) && isset($_POST["board_name"]) && isset($_POST["board_intro"]))
             if ($this->update())
+                echo '1';
+            else
+                echo '0';
+        else if ($_SESSION["user_name"] === "admin" && isset($_POST["board_name"]) && isset($_POST["board_intro"]))
+            if ($this->create())
                 echo '1';
             else
                 echo '0';
