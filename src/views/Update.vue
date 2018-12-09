@@ -66,7 +66,7 @@
         $.post(api + '/board?board_id=' + board_id, this.update).done((data) => {
           if (data.toString() === '1') {
             self.tip.status = 'success'
-            self.tip.message = 'Post successfully!'
+            self.tip.message = 'Update successfully!'
             self.$emit('update')
             setTimeout(() => {
               self.tip.message = 'Redirecting in 2 seconds.'
@@ -76,7 +76,7 @@
             }, 2000)
           } else if (data.toString() === '0') {
             self.tip.status = 'fail'
-            self.tip.message = 'Post failed!!'
+            self.tip.message = 'Update failed!!'
             setTimeout(() => {
               self.tip.status = null
               self.tip.message = null
