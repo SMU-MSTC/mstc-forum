@@ -6,6 +6,7 @@
           <div class="col">
             <h2>{{board.board_name}}</h2>
             <p>{{board.board_intro}}</p>
+            <router-link :to="'/update/' + board.board_id" v-if="session.user_name === 'admin'" class="btn btn-warning" role="button">Update info</router-link>
             <router-link :to="'/board/' + board.board_id" class="btn btn-secondary float-right" role="button">View {{board.board_name}} &raquo;</router-link>
           </div>
         </div>
@@ -19,6 +20,11 @@
   export default {
     name: 'home-component',
     props: {
+      session: {
+        user_id: null,
+        user_is_admin: null,
+        user_name: null
+      },
       boards: {
         board: {
           board_id: null,
@@ -29,3 +35,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .boards .btn {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+</style>

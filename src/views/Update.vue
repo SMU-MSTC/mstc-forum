@@ -2,22 +2,22 @@
   <div class="post">
     <Navigator :session="session" />
     <BoardJumbotron :info="board" />
-    <div v-if="session.user_id !== null" class="post-page">
+    <div v-if="session.user_name === 'admin'" class="update-page">
       <div class="container">
-        <form @submit.prevent="submit" class="post-form">
-          <label for="thread_title" class="sr-only">Thread Title</label>
-          <input v-model="post.thread_title" type="text" id="thread_title" class="form-control" placeholder="Thread Title" required autofocus>
-          <label for="thread_content" class="sr-only">Thread Content</label>
-          <textarea v-model="post.thread_content" type="text" id="thread_content" class="form-control" rows="3" placeholder="Thread Content"></textarea>
+        <form @submit.prevent="submit" class="update-form">
+          <label for="board_name" class="sr-only">Board Name</label>
+          <input v-model="update.board_name" type="text" id="board_name" class="form-control" placeholder="Board Name" required autofocus>
+          <label for="board_intro" class="sr-only">Board Intro</label>
+          <textarea v-model="update.board_intro" type="text" id="board_intro" class="form-control" rows="3" placeholder="Board Intro"></textarea>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
         </form>
       </div>
     </div>
-    <div v-else class="post-page">
-      <div class="alert alert-danger">Please login first.</div>
+    <div v-else class="update-page">
+      <div class="alert alert-danger">Only admin can update board information.</div>
     </div>
     <Foot />
   </div>
@@ -49,9 +49,9 @@
           board_name: null,
           board_intro: null
         },
-        post: {
-          thread_title: null,
-          thread_content: null
+        update: {
+          board_name: null,
+          board_intro: null
         },
         tip: {
           status: null,
@@ -63,7 +63,7 @@
       submit () {
         const self = this
         const board_id = this.$route.params.board_id
-        $.post(api + '/post?board_id=' + board_id, this.post).done((data) => {
+        $.post(api + '/board?board_id=' + board_id, this.update).done((data) => {
           if (data.toString() === '1') {
             self.tip.status = 'success'
             self.tip.message = 'Post successfully!'
@@ -72,7 +72,7 @@
               self.tip.message = 'Redirecting in 2 seconds.'
             }, 1000)
             setTimeout(() => {
-              self.$router.push('/board/' + board_id)
+              self.$router.push('/')
             }, 2000)
           } else if (data.toString() === '0') {
             self.tip.status = 'fail'
@@ -88,20 +88,20 @@
     beforeMount () {
       const self = this
       const board_id = this.$route.params.board_id
-      $.get(api + '/post?board_id=' + board_id, (data) => {
-        self.board = data.board
+      $.get(api + '/board?board_id=' + board_id, (data) => {
+        self.board = data.board.info
       })
     }
   }
 </script>
 
 <style scoped>
-  .post-page {
+  .update-page {
     height: 100%;
     padding-bottom: 120px;
   }
 
-  .post-form {
+  .update-form {
     width: 100%;
     max-width: 960px;
     padding: 15px;
@@ -115,7 +115,7 @@
     margin: auto;
   }
 
-  .post-form .form-control {
+  .update-form .form-control {
     position: relative;
     box-sizing: border-box;
     height: auto;
@@ -123,7 +123,7 @@
     font-size: 16px;
   }
 
-  .post-form .form-control:focus {
+  .update-form .form-control:focus {
     z-index: 2;
   }
 
@@ -133,11 +133,11 @@
     border-bottom-left-radius: 0;
   }
 
-  .post-form textarea {
+  .update-form textarea {
     margin-bottom: 40px;
   }
 
-  .post-form .alert {
+  .update-form .alert {
     margin-bottom: 40px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;

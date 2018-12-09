@@ -22,11 +22,12 @@
         board_id: null,
         board_name: null,
         board_intro: null
-      }
+      },
+      action: null
     },
     methods: {
       match () {
-        return this.$route.path.indexOf('/post') === -1
+        return (this.$route.path.indexOf('/post') === -1 && this.$route.path.indexOf('/update') === -1)
       }
     }
   }

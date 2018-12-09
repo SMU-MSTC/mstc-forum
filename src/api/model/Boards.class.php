@@ -10,6 +10,16 @@ class Boards extends Model
                                     board_intro text
                                 );";
 
+    public function update($board_id, $board_name, $board_intro)
+    {
+        if (pg_num_rows(pg_query($this->connection, "SELECT * FROM boards WHERE board_id='$board_name'")) === 0)
+            return false;
+        else {
+            $update_query = "UPDATE boards SET board_name='$board_name', board_intro='$board_intro' WHERE board_id='$board_id'";
+            return pg_query($this->connection, $update_query) ? true : false;
+        }
+    }
+
     public function selectAll($board_id)
     {
         if (isset($board_id)) {

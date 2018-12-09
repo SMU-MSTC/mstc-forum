@@ -40,7 +40,11 @@
         user_is_admin: null,
         user_name: null
       },
-      info: null,
+      info: {
+        board_id: null,
+        board_name: null,
+        board_intro: null
+      },
       threads: {
         thread: {
           thread_id: null,

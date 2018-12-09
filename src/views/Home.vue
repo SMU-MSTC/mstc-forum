@@ -2,7 +2,7 @@
   <div class="home">
     <Navigator :session="session" />
     <Jumbotron />
-    <HomeComponent :boards="boards" />
+    <HomeComponent :session="session" :boards="boards" />
     <Foot/>
   </div>
 </template>

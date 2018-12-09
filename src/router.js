@@ -22,6 +22,11 @@ export default new Router({
       component: () => import('./views/Board')
     },
     {
+      path: '/update/:board_id',
+      name: 'update',
+      component: () => import('./views/Update')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('./views/Register')
