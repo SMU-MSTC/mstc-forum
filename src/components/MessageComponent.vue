@@ -77,7 +77,7 @@
       </div>
     </div>
     <div v-else class="container">
-      <div class="alert alert-danger">Please login first.</div>
+      <div class="alert alert-danger">Please log in first.</div>
     </div>
   </div>
 </template>
