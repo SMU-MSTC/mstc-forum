@@ -13,15 +13,15 @@
         </div>
         <div class="row">
           <div class="col">
-            <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin === true" class="btn btn-danger ">&times; Delete</button>
+            <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin" class="btn btn-danger ">&times; Delete</button>
             <p class="float-right">
-              <button v-if="thread.favorite === true && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
-              <button v-if="thread.favorite === false && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
+              <button v-if="thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
+              <button v-if="!thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
               <router-link :to="'/read/' + thread.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
             </p>
           </div>
         </div>
-        <div v-if="thread.thread_visible === false" class="tip row">
+        <div v-if="!thread.thread_visible" class="tip row">
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
         </div>
@@ -70,9 +70,9 @@
         const self = this
         this.threads.forEach((item) => {
           if (item.thread_id === thread_id) {
-            if (item.thread_visible === false)
+            if (!item.thread_visible)
               item.thread_visible = true
-            else if (item.thread_visible === true)
+            else if (item.thread_visible)
               item.thread_visible = false
           }
         })

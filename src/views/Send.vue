@@ -6,7 +6,7 @@
         <h1>Sending message to <router-link :to="'/user/' + send.to">{{send.user_name}}</router-link></h1>
       </div>
     </div>
-    <div v-if="session.user_id != null" class="send-page">
+    <div v-if="session.user_id" class="send-page">
       <div class="container">
         <form @submit.prevent="submit" class="send-form">
           <label for="content" class="sr-only">Thread Content</label>

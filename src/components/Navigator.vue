@@ -6,7 +6,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul v-if="session.user_id === null" class="navbar-nav ml-auto">
+        <ul v-if="!session.user_id" class="navbar-nav ml-auto">
           <li class="nav-item mr-auto">
             <router-link to="/register" class="nav-link">Register</router-link>
           </li>

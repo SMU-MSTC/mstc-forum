@@ -75,7 +75,7 @@
             </tr>
             </tbody>
           </table>
-          <router-link :to="'/send/' + user.user_id" v-if="session.user_id !== null" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+          <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
         </div>
       </div>
     </div>
@@ -124,7 +124,7 @@
     methods: {
       validate() {
         if (this.session.user_id === this.user.user_id) {
-          if (this.flag === false) {
+          if (!this.flag) {
             this.update.user_name = this.user.user_name
             this.update.user_gender = this.user.user_gender
             this.update.user_birth = this.user.user_birth

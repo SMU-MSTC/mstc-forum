@@ -1,6 +1,6 @@
 <template>
   <div class="jumbotron message-component">
-    <div class="container" v-if="session.user_id != null">
+    <div class="container" v-if="session.user_id">
       <div class="accordion" id="message-box">
         <div class="card">
           <div class="card-header" id="sys-notice">
@@ -10,8 +10,8 @@
             <div class="card-body">
               <div class="list-group">
                 <div v-for="message in messages" :key="message.message_id">
-                  <div v-if="message.message_type === true" class="list-group-item list-group-item-action">
-                    <div v-if="message.message_is_read === false">
+                  <div v-if="message.message_type" class="list-group-item list-group-item-action">
+                    <div v-if="!message.message_is_read">
                       <p><b>{{message.message_content}}</b></p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>
@@ -19,7 +19,7 @@
                         <router-link :to="'/read/'+ message.message_from_thread_id">{{message.message_from_thread_title}}</router-link>
                       </small></p>
                     </div>
-                    <div v-if="message.message_is_read === true">
+                    <div v-if="message.message_is_read">
                       <p>{{message.message_content}}</p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>
@@ -28,14 +28,14 @@
                       </small></p>
                     </div>
                   </div>
-                  <div v-else-if="message.message_type === false && message.message_from_user_name === 'admin'" class="list-group-item list-group-item-action">
-                    <div v-if="message.message_is_read === false">
+                  <div v-else-if="!message.message_type && message.message_from_user_name === 'admin'" class="list-group-item list-group-item-action">
+                    <div v-if="!message.message_is_read">
                       <p><b>{{message.message_content}}</b></p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>
                         </small></p>
                     </div>
-                    <div v-else-if="message.message_is_read === true">
+                    <div v-else-if="message.message_is_read">
                       <p>{{message.message_content}}</p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>
@@ -55,14 +55,14 @@
             <div class="card-body">
               <div class="list-group">
                 <div v-for="message in messages" :key="message.message_id">
-                  <div v-if="message.message_type === false && message.message_from_user_name !== 'admin'" class="list-group-item list-group-item-action">
-                    <div v-if="message.message_is_read === false">
+                  <div v-if="!message.message_type && message.message_from_user_name !== 'admin'" class="list-group-item list-group-item-action">
+                    <div v-if="!message.message_is_read">
                       <p><b>{{message.message_content}}</b></p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>
                       </small></p>
                     </div>
-                    <div v-if="message.message_is_read === true">
+                    <div v-if="message.message_is_read">
                       <p>{{message.message_content}}</p>
                       <p><small>From
                         <router-link :to="'/user/'+ message.message_from">{{message.message_from_user_name}}</router-link>

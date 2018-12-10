@@ -2,7 +2,7 @@
   <div class="post">
     <Navigator :session="session" />
     <BoardJumbotron :info="board" />
-    <div v-if="session.user_id !== null" class="post-page">
+    <div v-if="session.user_id" class="post-page">
       <div class="container">
         <form @submit.prevent="submit" class="post-form">
           <label for="thread_title" class="sr-only">Thread Title</label>

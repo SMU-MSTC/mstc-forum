@@ -54,6 +54,8 @@ class Favorite extends Controller
                     unset($this->array["favorites"][$key]);
                 $favorite["favorite"] = (new Favorites($this->connection))->isFavorite($_SESSION["user_id"], $favorite["thread_id"]);
                 $this->array["favorites"] = array_values($this->array["favorites"]);
+                if ($this->array["favorites"] === [])
+                    $this->array["favorites"] = null;
             }
         }
     }
