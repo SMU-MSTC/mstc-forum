@@ -3,7 +3,7 @@
     <Navigator :session="session" />
     <div class="read-page">
       <div class="thread">
-        <div class="container">
+        <div v-if="thread !== null" class="container">
           <div class="row">
             <div class="col">
               <h2>{{thread.thread_title}}</h2>
@@ -27,10 +27,17 @@
           </div>
           <ReplyForm v-if="thread.thread_visible === false" :thread_id="thread.thread_id" @reload="reload" />
         </div>
+        <div v-else class="container">
+          <div class="row">
+            <div class="col">
+              <h2>This thread has been deleted.</h2>
+            </div>
+          </div>
+        </div>
         <hr>
       </div>
       <div class="replies" v-for="reply in replies" :key="reply.reply_id">
-        <div v-if="reply.reply_is_reply === false" class="container">
+        <div v-if="reply !== null && reply.reply_is_reply === false" class="container">
           <div class="row">
             <div class="col">
               <p class="lead">{{reply.reply_content}}</p>
@@ -55,7 +62,7 @@
           <ReplyForm v-if="reply.reply_visible === false && tip.flag ===false" :thread_id="thread.thread_id" :reply_id="reply.reply_id" @reload="reload" />
           <hr>
         </div>
-        <div v-else class="container">
+        <div v-else-if="reply !== null && reply.reply_is_reply === true" class="container">
           <div class="row">
             <div class="col">
               <p>&raquo; <small><em>{{reply.reply_reply_content}}

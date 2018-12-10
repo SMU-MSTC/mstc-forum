@@ -27,6 +27,11 @@ class Read extends Controller
             $this->array["thread"]["thread_visible"] = false;
         elseif ($this->array["thread"]["thread_visible"])
             $this->array["thread"]["thread_visible"] = true;
+        if ($this->array["thread"]["thread_visible"] === false) {
+            $this->array ["thread"] = null;
+            $this->array["replies"] = null;
+            return;
+        }
         foreach ($this->array["replies"] as $key => &$reply) {
             $reply["reply_id"] = (int)$reply["reply_id"];
             $reply["user_id"] = (int)$reply["user_id"];
