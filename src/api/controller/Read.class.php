@@ -53,6 +53,12 @@ class Read extends Controller
                 $reply["reply_reply_user_id"] = (int)$reply_reply["user_id"];
                 $reply["reply_reply_user_name"] = (new Users($this->connection))->selectAll($reply_reply["user_id"])["user_name"];
                 $reply["reply_reply_time"] = date("Y-m-d h:i:s", strtotime($reply_reply["reply_time"]));
+                if ($reply_reply["reply_visible"] === "f") {
+                    $reply["reply_reply_content"] = null;
+                    unset($reply["reply_reply_user_id"]);
+                    unset($reply["reply_reply_user_name"]);
+                    unset($reply["reply_reply_time"]);
+                }
             }
             if (!$reply["reply_visible"])
                 unset($this->array["replies"][$key]);

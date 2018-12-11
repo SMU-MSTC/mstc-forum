@@ -69,11 +69,14 @@
         </div>
         <div v-else-if="reply && reply.reply_is_reply" class="container">
           <div class="row">
-            <div class="col">
+            <div v-if="reply.reply_reply_content" class="col">
               <p>&raquo; <small><em>{{reply.reply_reply_content}}
                 <router-link :to="'/user/' + reply.reply_reply_user_id">{{reply.reply_reply_user_name}} </router-link>
                 {{reply.reply_reply_time}}
               </em></small></p>
+            </div>
+            <div v-else>
+              <p>&raquo; <small><em>[Reply has been deleted!]</em></small></p>
             </div>
           </div>
           <div class="row">
