@@ -23,7 +23,7 @@ class Delete extends Controller
 
     public function json()
     {
-        if ((isset($_POST["thread_id"]) || isset($_POST["reply_id"])) && isset($_SESSION["user_id"]) && $_SESSION["user_name"] === "admin")
+        if ((isset($_POST["thread_id"]) || isset($_POST["reply_id"])) && isset($_SESSION["user_id"]) && $_SESSION["user_is_admin"])
             if ($this->delete())
                 echo '1';
             else

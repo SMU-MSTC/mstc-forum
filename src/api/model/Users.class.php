@@ -107,6 +107,22 @@ class Users extends Model
         $_SESSION["user_is_admin"] = $user_is_admin;
     }
 
+    public function grant($user_id)
+    {
+        if (isset($user_id) && $_SESSION["user_name"] === "admin") {
+            return pg_query("UPDATE users SET user_is_admin=true WHERE user_id='$user_id'") ? true : false;
+        } else
+            return false;
+    }
+
+    public function revoke($user_id)
+    {
+        if (isset($user_id) && $_SESSION["user_name"] === "admin") {
+            return pg_query("UPDATE users SET user_is_admin=false WHERE user_id='$user_id'") ? true : false;
+        } else
+            return false;
+    }
+
     public function selectAll($user_id)
     {
         if (isset($user_id)) {

@@ -20,6 +20,16 @@ class User extends Controller
                 echo '1';
             else
                 echo '0';
+        else if (isset($_POST["grant"]) && $_SESSION["user_name"] === "admin")
+            if ($this->model->grant(pg_escape_string(trim($_POST["grant"]))))
+                echo '1';
+            else
+                echo '0';
+        else if (isset($_POST["revoke"]) && $_SESSION["user_name"] === "admin")
+            if ($this->model->revoke(pg_escape_string(trim($_POST["revoke"]))))
+                echo '1';
+            else
+                echo '0';
         else
             parent::json();
     }

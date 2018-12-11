@@ -111,7 +111,7 @@
         <hr>
       </div>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 
