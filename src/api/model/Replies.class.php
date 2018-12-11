@@ -38,6 +38,14 @@ class Replies extends Model
             return false;
     }
 
+    public function search($search)
+    {
+        if (isset($search))
+            return pg_fetch_all(pg_query("SELECT * FROM replies WHERE reply_content LIKE '%$search%'"));
+        else
+            return null;
+    }
+
     public function delete($reply_id)
     {
         $delete_query = "UPDATE replies SET reply_visible = FALSE WHERE reply_id='$reply_id'";

@@ -28,14 +28,14 @@ class User extends Controller
     {
         if (isset($_POST["user_name"]) && isset($_POST["user_password"])) {
             if ($_GET["user_id"] === $_SESSION["user_id"]) {
-                $update["user_name"] = pg_escape_string($_POST["user_name"]);
-                $update["user_password"] = pg_escape_string($_POST["user_password"]);
-                $update["new_password"] = pg_escape_string($_POST["new_password"]);
-                $update["user_gender"] = pg_escape_string($_POST["user_gender"]);
-                $update["user_birth"] = pg_escape_string($_POST["user_birth"]);
-                $update["user_email"] = pg_escape_string($_POST["user_email"]);
-                $update["user_tel"] = pg_escape_string($_POST["user_tel"]);
-                $update["user_intro"] = pg_escape_string($_POST["user_intro"]);
+                $update["user_name"] = pg_escape_string(trim($_POST["user_name"]));
+                $update["user_password"] = pg_escape_string(trim($_POST["user_password"]));
+                $update["new_password"] = pg_escape_string(trim($_POST["new_password"]));
+                $update["user_gender"] = pg_escape_string(trim($_POST["user_gender"]));
+                $update["user_birth"] = pg_escape_string(trim($_POST["user_birth"]));
+                $update["user_email"] = pg_escape_string(trim($_POST["user_email"]));
+                $update["user_tel"] = pg_escape_string(trim($_POST["user_tel"]));
+                $update["user_intro"] = pg_escape_string(trim($_POST["user_intro"]));
                 return ($this->model->update($update)) ? true : false;
             } else {
                 return false;

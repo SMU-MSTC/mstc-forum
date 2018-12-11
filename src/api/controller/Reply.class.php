@@ -14,12 +14,12 @@ class Reply extends Controller
     public function reply()
     {
         if (isset($_POST["reply_id"])) {
-            $reply_content = pg_escape_string($_POST["reply_content"]);
+            $reply_content = pg_escape_string(trim($_POST["reply_content"]));
             $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_id" => $_POST["reply_id"], "reply_content" => $reply_content);
             $message = array("message_reply_id" => $_POST["reply_id"], "message_from" => $_SESSION["user_id"], "message_content" => $reply_content);
             return $this->model->reply($reply) && (new Messages($this->connection))->reply($message);
         } else {
-            $reply_content = pg_escape_string($_POST["reply_content"]);
+            $reply_content = pg_escape_string(trim($_POST["reply_content"]));
             $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_content" => $reply_content);
             $message = array("message_thread_id" => $_POST["thread_id"], "message_from" => $_SESSION["user_id"], "message_content" => $reply_content);
             return $this->model->reply($reply) && (new Messages($this->connection))->reply($message);

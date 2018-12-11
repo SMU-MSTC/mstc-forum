@@ -17,8 +17,8 @@ class Post extends Controller
         if (isset($_POST["thread_title"]) && isset($_POST["thread_content"])) {
             $thread["user_id"] = $_SESSION["user_id"];
             $thread["board_id"] = $_GET["board_id"];
-            $thread["thread_title"] = pg_escape_string($_POST["thread_title"]);
-            $thread["thread_content"] = pg_escape_string($_POST["thread_content"]);
+            $thread["thread_title"] = pg_escape_string(trim($_POST["thread_title"]));
+            $thread["thread_content"] = pg_escape_string(trim($_POST["thread_content"]));
             $thread["thread_time"] = date("Y-m-d h:i:s");
             return ($this->model->post($thread)) ? true : false;
         } else {

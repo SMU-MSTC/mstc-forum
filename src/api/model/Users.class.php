@@ -78,7 +78,7 @@ class Users extends Model
         else {
             $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_name='$user_name'"));
             $old_password = md5($user_password);
-            $new_password = (isset($new_password) && $new_password !== "" && $new_password !== null) ? md5($new_password) : $old_password;
+            $new_password = (isset($new_password) && $new_password !== "" && $new_password) ? md5($new_password) : $old_password;
             $update_query = "UPDATE users
                              SET user_name='$user_name', user_password='$new_password',
                                  user_gender=NULLIF('$user_gender', ''), user_birth=TO_DATE(NULLIF('$user_birth', ''), 'YYYYMMDD'),

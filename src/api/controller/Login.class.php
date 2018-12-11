@@ -14,8 +14,8 @@ class Login extends Controller
     public function login()
     {
         if (isset($_POST["user_name"]) && isset($_POST["user_password"])) {
-            $login["user_name"] = pg_escape_string($_POST["user_name"]);
-            $login["user_password"] = pg_escape_string($_POST["user_password"]);
+            $login["user_name"] = pg_escape_string(trim($_POST["user_name"]));
+            $login["user_password"] = pg_escape_string(trim($_POST["user_password"]));
             return ($this->model->login($login)) ? true : false;
         } else
             return false;

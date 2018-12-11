@@ -15,7 +15,7 @@ class Favorite extends Controller
 
     public function favorite()
     {
-        if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] !== null && isset($_POST["thread_id"]) && $_POST["thread_id"] !== null) {
+        if (isset($_SESSION["user_id"]) && $_SESSION["user_id"] && isset($_POST["thread_id"]) && $_POST["thread_id"]) {
             return ($this->model->favorite($_SESSION["user_id"], $_POST["thread_id"])) ? true : false;
         } else
             return false;
