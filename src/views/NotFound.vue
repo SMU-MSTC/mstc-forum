@@ -1,11 +1,11 @@
 <template>
   <div class="not-found">
-    <Navigator :session="session"/>
+    <Navigator :session="session" />
     <div class="text-center">
       <h1>404</h1>
       <h2>Page Not Found!</h2>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 

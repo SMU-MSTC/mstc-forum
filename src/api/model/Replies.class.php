@@ -26,13 +26,12 @@ class Replies extends Model
              */
             extract($reply);
             $reply_time = date("Y-m-d h:i:s");
-            $reply_content = pg_escape_string($reply_content);
             if (isset($reply_id)) {
                 $reply_query = "INSERT INTO replies (user_id, thread_id, reply_content, reply_time, reply_is_reply, reply_reply_id)
-                       VALUES ('$user_id', '$thread_id', '$reply_content', '$reply_time', TRUE, '$reply_id')";
+                                VALUES ('$user_id', '$thread_id', '$reply_content', '$reply_time', TRUE, '$reply_id')";
             } else {
                 $reply_query = "INSERT INTO replies (user_id, thread_id, reply_content, reply_time)
-                       VALUES ('$user_id', '$thread_id', '$reply_content', '$reply_time')";
+                                VALUES ('$user_id', '$thread_id', '$reply_content', '$reply_time')";
             }
             return pg_query($this->connection, $reply_query) ? true : false;
         } else

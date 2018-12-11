@@ -1,23 +1,17 @@
 <template>
   <div class="post">
-    <Navigator :session="session"/>
-    <BoardJumbotron :info="board"/>
-    <div v-if="session.user_id != null" class="post-page">
+    <Navigator :session="session" />
+    <BoardJumbotron :info="board" />
+    <div v-if="session.user_id" class="post-page">
       <div class="container">
         <form @submit.prevent="submit" class="post-form">
           <label for="thread_title" class="sr-only">Thread Title</label>
           <input v-model="post.thread_title" type="text" id="thread_title" class="form-control" placeholder="Thread Title" required autofocus>
           <label for="thread_content" class="sr-only">Thread Content</label>
           <textarea v-model="post.thread_content" type="text" id="thread_content" class="form-control" rows="3" placeholder="Thread Content"></textarea>
-          <div v-if="tip.status === 'success'" class="alert alert-success">
-            {{tip.message}}
-          </div>
-          <div v-if="tip.status === 'warn'" class="alert alert-warning">
-            {{tip.message}}
-          </div>
-          <div v-if="tip.status === 'fail'" class="alert alert-danger">
-            {{tip.message}}
-          </div>
+          <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
+          <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
+          <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
           <button class="btn btn-lg btn-primary btn-block" type="submit">Post</button>
         </form>
       </div>
@@ -25,7 +19,7 @@
     <div v-else class="post-page">
       <div class="alert alert-danger">Please login first.</div>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 
@@ -48,7 +42,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         board: {
           board_id: null,
@@ -66,7 +60,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         const board_id = this.$route.params.board_id
         $.post(api + '/post?board_id=' + board_id, this.post).done((data) => {
@@ -91,7 +85,7 @@
         })
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       const board_id = this.$route.params.board_id
       $.get(api + '/post?board_id=' + board_id, (data) => {

@@ -3,10 +3,15 @@
     <Navigator :session="session" />
     <div class="read-page">
       <div class="thread">
-        <div class="container">
+        <div v-if="thread" class="container">
           <div class="row">
             <div class="col">
               <h2>{{thread.thread_title}}</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="lead">{{thread.thread_content}}</p>
               <p class="float-right">
                 <router-link :to="'/user/' + thread.user_id">{{thread.user_name}}</router-link>
                 {{thread.thread_time}}
@@ -17,20 +22,27 @@
             <div class="col">
               <router-link :to="'/board/' + thread.board_id" class="btn btn-default float-left" role="button">&laquo; Back to {{thread.board_name}}</router-link>
             </div>
-            <div v-if="session.user_id !== null" class="col">
+            <div v-if="session.user_id">
               <p class="float-right">
-                <button v-if="thread.favorite === true && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
-                <button v-if="thread.favorite === false && session.user_id !== null" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
+                <button v-if="thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
+                <button v-if="!thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
                 <button v-on:click="threadOnClick()" class="btn btn-primary" type="button">Reply &raquo;</button>
               </p>
             </div>
           </div>
-          <ReplyForm v-if="thread.thread_visible === false" :thread_id="thread.thread_id" @reload="reload" />
+          <ReplyForm v-if="!thread.thread_visible" :thread_id="thread.thread_id" @reload="reload" />
+        </div>
+        <div v-else class="container">
+          <div class="row">
+            <div class="col">
+              <h2>This thread has been deleted.</h2>
+            </div>
+          </div>
         </div>
         <hr>
       </div>
       <div class="replies" v-for="reply in replies" :key="reply.reply_id">
-        <div v-if="reply.reply_is_reply === false" class="container">
+        <div v-if="reply && !reply.reply_is_reply" class="container">
           <div class="row">
             <div class="col">
               <p class="lead">{{reply.reply_content}}</p>
@@ -40,29 +52,32 @@
               </p>
             </div>
           </div>
-          <div v-if="session.user_id !== null">
+          <div v-if="session.user_id">
             <div class="row">
               <div class="col">
-                <button v-on:click="deleteReply(reply.reply_id)" v-if="session.user_is_admin === true" class="btn btn-danger float-left">&times; Delete</button>
+                <button v-on:click="deleteReply(reply.reply_id)" v-if="session.user_is_admin" class="btn btn-danger float-left">&times; Delete</button>
                 <button v-on:click="replyOnClick(reply.reply_id)" class="btn btn-secondary float-right" type="button">Reply &raquo;</button>
               </div>
             </div>
-            <div v-if="tip.flag === true && tip.reply_id === reply.reply_id" class="tip row">
+            <div v-if="tip.flag && tip.reply_id === reply.reply_id" class="tip row">
               <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
               <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
             </div>
           </div>
-          <ReplyForm v-if="reply.reply_visible === false && tip.flag ===false" :thread_id="thread.thread_id" :reply_id="reply.reply_id" @reload="reload" />
+          <ReplyForm v-if="!reply.reply_visible && !tip.flag" :thread_id="thread.thread_id" :reply_id="reply.reply_id" @reload="reload" />
           <hr>
         </div>
-        <div v-else class="container">
+        <div v-else-if="reply && reply.reply_is_reply" class="container">
           <div class="row">
-            <div class="col">
+            <div v-if="reply.reply_reply_content" class="col">
               <p>&raquo; <small><em>{{reply.reply_reply_content}}
                 <router-link :to="'/user/' + reply.reply_reply_user_id">{{reply.reply_reply_user_name}} </router-link>
                 {{reply.reply_reply_time}}
               </em></small></p>
             </div>
+            <div v-else>
+              <p>&raquo; <small><em>[Reply has been deleted!]</em></small></p>
+            </div>
           </div>
           <div class="row">
             <div class="col">
@@ -73,19 +88,19 @@
               </p>
             </div>
           </div>
-          <div v-if="session.user_id !== null">
+          <div v-if="session.user_id">
             <div class="row">
               <div class="col">
-                <button v-on:click="deleteReply(reply.reply_id)" v-if="session.user_is_admin === true" class="btn btn-danger float-left">&times; Delete</button>
+                <button v-on:click="deleteReply(reply.reply_id)" v-if="session.user_is_admin" class="btn btn-danger float-left">&times; Delete</button>
                 <button v-on:click="replyOnClick(reply.reply_id)" class="btn btn-secondary float-right" type="button">Reply &raquo;</button>
               </div>
             </div>
-            <div v-if="tip.flag === true && tip.reply_id === reply.reply_id" class="tip row">
+            <div v-if="tip.flag && tip.reply_id === reply.reply_id" class="tip row">
               <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
               <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
             </div>
           </div>
-          <ReplyForm v-if="reply.reply_visible === false && tip.flag ===false" :thread_id="thread.thread_id" :reply_id="reply.reply_id" @reload="reload" />
+          <ReplyForm v-if="!reply.reply_visible && !tip.flag" :thread_id="thread.thread_id" :reply_id="reply.reply_id" @reload="reload" />
           <hr>
         </div>
       </div>
@@ -151,17 +166,17 @@
     },
     methods: {
       threadOnClick() {
-        if (this.thread.thread_visible === true)
+        if (this.thread.thread_visible)
             this.thread.thread_visible = false
-        else if (this.thread.thread_visible === false)
+        else if (!this.thread.thread_visible)
             this.thread.thread_visible = true
       },
       replyOnClick(reply_id) {
         this.replies.forEach((item) => {
           if (item.reply_id === reply_id) {
-            if (item.reply_visible === false)
+            if (!item.reply_visible)
               item.reply_visible = true
-            else if (item.reply_visible === true)
+            else if (item.reply_visible)
               item.reply_visible = false
           }
         })
@@ -170,9 +185,9 @@
         const self = this
         self.replies.forEach((item) => {
           if (item.reply_id === reply_id) {
-            if (item.reply_visible === false)
+            if (!item.reply_visible)
               item.reply_visible = true
-            else if (item.reply_visible === true)
+            else if (item.reply_visible)
               item.reply_visible = false
           }
         })

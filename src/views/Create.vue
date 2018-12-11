@@ -1,25 +1,23 @@
 <template>
-  <div class="send">
+  <div class="create">
     <Navigator :session="session" />
-    <div class="jumbotron">
+    <BoardJumbotron :info="board" />
+    <div v-if="session.user_is_admin" class="create-page">
       <div class="container">
-        <h1>Sending message to <router-link :to="'/user/' + send.to">{{send.user_name}}</router-link></h1>
-      </div>
-    </div>
-    <div v-if="session.user_id" class="send-page">
-      <div class="container">
-        <form @submit.prevent="submit" class="send-form">
-          <label for="content" class="sr-only">Thread Content</label>
-          <textarea v-model="send.content" type="text" id="content" class="form-control" rows="3" placeholder="Content" required autofocus></textarea>
+        <form @submit.prevent="submit" class="create-form">
+          <label for="board_name" class="sr-only">Board Name</label>
+          <input v-model="create.board_name" type="text" id="board_name" class="form-control" placeholder="Board Name" required autofocus>
+          <label for="board_intro" class="sr-only">Board Intro</label>
+          <textarea v-model="create.board_intro" type="text" id="board_intro" class="form-control" rows="3" placeholder="Board Intro"></textarea>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Send</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
         </form>
       </div>
     </div>
-    <div v-else class="send-page">
-      <div class="alert alert-danger">Please login first.</div>
+    <div v-else class="create-page">
+      <div class="alert alert-danger">Only admin can create new board.</div>
     </div>
     <Foot />
   </div>
@@ -27,11 +25,14 @@
 
 <script>
   import Navigator from '../components/Navigator'
+  import BoardJumbotron from '../components/BoardJumbotron'
   import Foot from '../components/Foot'
+
   export default {
-    name: 'send',
+    name: 'create',
     components: {
       Navigator,
+      BoardJumbotron,
       Foot
     },
     props: {
@@ -43,10 +44,9 @@
     },
     data() {
       return {
-        send: {
-          to: null,
-          user_name: null,
-          content: null
+        create: {
+          board_name: null,
+          board_intro: null
         },
         tip: {
           status: null,
@@ -57,21 +57,20 @@
     methods: {
       submit() {
         const self = this
-        const user_id = this.$route.params.user_id
-        $.post(api + '/send?user_id=' + user_id, this.send).done((data) => {
+        $.post(api + '/board', this.create).done((data) => {
           if (data.toString() === '1') {
             self.tip.status = 'success'
-            self.tip.message = 'Send successfully!'
+            self.tip.message = 'Create successfully!'
             self.$emit('update')
             setTimeout(() => {
               self.tip.message = 'Redirecting in 2 seconds.'
             }, 1000)
             setTimeout(() => {
-              self.$router.push('/user/' + user_id)
+              self.$router.push('/')
             }, 2000)
           } else if (data.toString() === '0') {
             self.tip.status = 'fail'
-            self.tip.message = 'Send failed!!'
+            self.tip.message = 'Create failed!!'
             setTimeout(() => {
               self.tip.status = null
               self.tip.message = null
@@ -79,24 +78,17 @@
           }
         })
       }
-    },
-    beforeMount() {
-      const self = this
-      this.send.to = this.$route.params.user_id
-      $.get(api + '/user?user_id=' + this.send.to, (data) => {
-        self.send.user_name = data.user.user_name
-      })
     }
   }
 </script>
 
 <style scoped>
-  .send-page {
+  .create-page {
     height: 100%;
     padding-bottom: 120px;
   }
 
-  .send-form {
+  .create-form {
     width: 100%;
     max-width: 960px;
     padding: 15px;
@@ -110,7 +102,7 @@
     margin: auto;
   }
 
-  .send-form .form-control {
+  .create-form .form-control {
     position: relative;
     box-sizing: border-box;
     height: auto;
@@ -118,7 +110,7 @@
     font-size: 16px;
   }
 
-  .send-form .form-control:focus {
+  .create-form .form-control:focus {
     z-index: 2;
   }
 
@@ -128,11 +120,11 @@
     border-bottom-left-radius: 0;
   }
 
-  .send-form textarea {
+  .create-form textarea {
     margin-bottom: 40px;
   }
 
-  .send-form .alert {
+  .create-form .alert {
     margin-bottom: 40px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;

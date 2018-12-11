@@ -7,19 +7,19 @@
 <script>
   export default {
     name: 'app',
-    data () {
+    data() {
       return {
         session: null
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       $.get(api + '/', (data) => {
         self.session = data.session
       })
     },
     methods: {
-      update () {
+      update() {
         const self = this
         $.get(api + '/', (data) => {
           self.session = data.session

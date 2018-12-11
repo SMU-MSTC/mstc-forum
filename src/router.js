@@ -22,6 +22,16 @@ export default new Router({
       component: () => import('./views/Board')
     },
     {
+      path: '/update/:board_id',
+      name: 'update',
+      component: () => import('./views/Update')
+    },
+    {
+      path: '/create',
+      name: 'create',
+      component: () => import('./views/Create')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('./views/Register')
@@ -53,9 +63,19 @@ export default new Router({
       component: () => import('./views/Read')
     },
     {
-      path: '/favorites',
-      name: 'favorites',
-      component: () => import('./views/Favorites')
+        path: '/favorites',
+        name: 'favorites',
+        component: () => import('./views/Favorites')
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: () => import('./views/Message')
+    },
+    {
+      path: '/send/:user_id',
+      name: 'send',
+      component: () => import('./views/Send')
     },
     {
       path: '/404',

@@ -1,9 +1,9 @@
 <template>
   <div class="board">
-    <Navigator :session="session"/>
-    <BoardJumbotron :info="board.info"/>
-    <BoardComponent :session="session" :info="board.info" :threads="board.threads" @reload="reload"/>
-    <Foot/>
+    <Navigator :session="session" />
+    <BoardJumbotron :info="board.info" />
+    <BoardComponent :session="session" :info="board.info" :threads="board.threads" @reload="reload" />
+    <Foot />
   </div>
 </template>
 
@@ -28,7 +28,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         board: {
           info: null,
@@ -37,7 +37,7 @@
       }
     },
     methods: {
-      reload () {
+      reload() {
         const self = this
         const board_id = this.$route.params.board_id
         $.get(api + '/board?board_id=' + board_id, (data) => {
@@ -45,7 +45,7 @@
         })
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       const board_id = this.$route.params.board_id
       $.get(api + '/board?board_id=' + board_id, (data) => {

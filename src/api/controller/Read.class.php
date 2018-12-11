@@ -27,6 +27,11 @@ class Read extends Controller
             $this->array["thread"]["thread_visible"] = false;
         elseif ($this->array["thread"]["thread_visible"])
             $this->array["thread"]["thread_visible"] = true;
+        if ($this->array["thread"]["thread_visible"] === false) {
+            $this->array ["thread"] = null;
+            $this->array["replies"] = null;
+            return;
+        }
         foreach ($this->array["replies"] as $key => &$reply) {
             $reply["reply_id"] = (int)$reply["reply_id"];
             $reply["user_id"] = (int)$reply["user_id"];
@@ -48,6 +53,12 @@ class Read extends Controller
                 $reply["reply_reply_user_id"] = (int)$reply_reply["user_id"];
                 $reply["reply_reply_user_name"] = (new Users($this->connection))->selectAll($reply_reply["user_id"])["user_name"];
                 $reply["reply_reply_time"] = date("Y-m-d h:i:s", strtotime($reply_reply["reply_time"]));
+                if ($reply_reply["reply_visible"] === "f") {
+                    $reply["reply_reply_content"] = null;
+                    unset($reply["reply_reply_user_id"]);
+                    unset($reply["reply_reply_user_name"]);
+                    unset($reply["reply_reply_time"]);
+                }
             }
             if (!$reply["reply_visible"])
                 unset($this->array["replies"][$key]);

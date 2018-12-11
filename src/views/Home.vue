@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <Navigator :session="session"/>
-    <Jumbotron/>
-    <HomeComponent :boards="boards"/>
+    <Navigator :session="session" />
+    <Jumbotron />
+    <HomeComponent :session="session" :boards="boards" />
     <Foot/>
   </div>
 </template>
@@ -28,7 +28,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         boards: {
           board: {
@@ -39,7 +39,7 @@
         }
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       self.$emit('update')
       $.get(api + '/', (data) => {

@@ -20,9 +20,9 @@
         <label for="user_birth" class="sr-only">Birthday</label>
         <input v-model="update.user_birth" type="date" id="user_birth" class="form-control">
         <label for="user_email" class="sr-only">Email</label>
-        <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email" required>
+        <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email">
         <label for="user_name" class="sr-only">Phone number</label>
-        <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number" required>
+        <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number">
         <label for="user_intro" class="sr-only">Intro</label>
         <textarea v-model="update.user_intro" type="text" id="user_intro" class="form-control" rows="3" placeholder="Intro"></textarea>
         <div v-if="tip.status === 'success'" class="alert alert-success">
@@ -75,7 +75,7 @@
             </tr>
             </tbody>
           </table>
-          <router-link :to="'/send/' + user.user_id" v-if="session.user_id !== null" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+          <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
         user_intro: null
       }
     },
-    data () {
+    data() {
       return {
         update: {
           user_name: null,
@@ -122,9 +122,9 @@
       }
     },
     methods: {
-      validate () {
+      validate() {
         if (this.session.user_id === this.user.user_id) {
-          if (this.flag === false) {
+          if (!this.flag) {
             this.update.user_name = this.user.user_name
             this.update.user_gender = this.user.user_gender
             this.update.user_birth = this.user.user_birth
@@ -137,7 +137,7 @@
         } else
           return false
       },
-      submit () {
+      submit() {
         const self = this
         const user_id = this.session.user_id
         if (self.update.new_password === self.update.user_password) {
@@ -151,6 +151,7 @@
           }, 2000)
         } else {
           this.update.user_password = md5(this.update.user_password)
+          this.update.new_password = md5(this.update.new_password)
           $.post(api + '/user?user_id=' + user_id, this.update).done((data) => {
             if (data.toString() === '1') {
               self.tip.status = 'success'

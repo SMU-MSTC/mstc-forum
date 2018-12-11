@@ -1,8 +1,8 @@
 <template>
   <div class="user">
-    <Navigator :session="session"/>
-    <UserComponent :session="session" :user="user"/>
-    <Foot/>
+    <Navigator :session="session" />
+    <UserComponent :session="session" :user="user" />
+    <Foot />
   </div>
 </template>
 
@@ -25,7 +25,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         user: {
           user_id: null,
@@ -39,7 +39,7 @@
         }
       }
     },
-    beforeMount () {
+    beforeMount() {
       const self = this
       const user_id = this.$route.params.user_id
       $.get(api + '/user?user_id=' + user_id, (data) => {

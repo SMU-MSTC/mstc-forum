@@ -6,7 +6,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul v-if="session.user_id === null" class="navbar-nav ml-auto">
+        <ul v-if="!session.user_id" class="navbar-nav ml-auto">
           <li class="nav-item mr-auto">
             <router-link to="/register" class="nav-link">Register</router-link>
           </li>
@@ -19,8 +19,9 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, {{session.user_name}}! </a>
             <div class="dropdown-menu" aria-labelledby="dropdown">
               <router-link :to="'/user/' + session.user_id" class="dropdown-item">Update information</router-link>
-              <router-link to="/favorites/" class="dropdown-item">View favorites </router-link>
-              <router-link :to="'/message/' + session.user_id" class="dropdown-item">View messages</router-link>
+              <router-link to="/favorites" class="dropdown-item">View favorites </router-link>
+              <router-link to="/message" class="dropdown-item">View messages</router-link>
+              <router-link to="/create" v-if="session.user_is_admin" class="dropdown-item">Create new board</router-link>
             </div>
           </li>
           <li class="nav-item">

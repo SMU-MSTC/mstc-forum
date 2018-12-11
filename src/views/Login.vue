@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <Navigator :session="session"/>
+    <Navigator :session="session" />
     <div class="login-page">
       <form @submit.prevent="submit" class="loign-form">
         <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
@@ -9,16 +9,12 @@
         <input v-model="login.user_name" type="text" id="user_name" class="form-control" placeholder="Username" required autofocus>
         <label for="user_password" class="sr-only">Password</label>
         <input v-model="login.user_password" type="password" id="user_password" class="form-control" placeholder="Password" required>
-        <div v-if="tip.status === 'success'" class="alert alert-success">
-          {{tip.message}}
-        </div>
-        <div v-if="tip.status === 'fail'" class="alert alert-danger">
-          {{tip.message}}
-        </div>
+        <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
+        <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
       </form>
     </div>
-    <Foot/>
+    <Foot />
   </div>
 </template>
 
@@ -39,7 +35,7 @@
         user_name: null
       }
     },
-    data () {
+    data() {
       return {
         login: {
           user_name: null,
@@ -52,7 +48,7 @@
       }
     },
     methods: {
-      submit () {
+      submit() {
         const self = this
         this.login.user_password = md5(this.login.user_password)
         $.post(api + '/login', this.login).done((data) => {
