@@ -29,6 +29,14 @@ class Threads extends Model
         return pg_query($this->connection, $post_query) ? true : false;
     }
 
+    public function search($search)
+    {
+        if (isset($search))
+            return pg_fetch_all(pg_query("SELECT * FROM threads WHERE thread_content LIKE '%$search%' OR thread_title LIKE '%$search%'"));
+        else
+            return null;
+    }
+
     public function delete($thread_id)
     {
         $delete_query = "UPDATE threads SET thread_visible = FALSE WHERE thread_id='$thread_id'";

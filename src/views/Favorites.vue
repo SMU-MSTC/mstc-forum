@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="row">
+          <router-link :to="'/board/' + favorite.board_id" class="btn btn-default" role="button">&laquo; Go to {{favorite.board_name}}</router-link>
           <div class="col">
-            <router-link :to="'/board/' + favorite.board_id" class="btn btn-default" role="button">&raquo; Go to {{favorite.board_name}}</router-link>
             <p class="float-right">
               <button v-if="favorite.favorite && session.user_id" v-on:click="favor(favorite.thread_id)" class="btn btn-warning">Unfavorite</button>
               <router-link :to="'/read/' + favorite.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>

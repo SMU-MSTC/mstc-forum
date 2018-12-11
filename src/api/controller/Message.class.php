@@ -28,7 +28,7 @@ class Message extends Controller
                 $message["message_is_read"] = true;
             elseif ($message["message_is_read"] === "f")
                 $message["message_is_read"] = false;
-            if ($message["message_type"] === false) {
+            if (!$message["message_type"]) {
                 $message["message_from_user_name"] = (new Users($this->connection))->selectAll($message["message_from"])["user_name"];
                 if ($message["message_from_user_name"] === "admin")
                     $message["message_from_user_is_admin"] = true;

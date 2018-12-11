@@ -14,16 +14,16 @@ class Delete extends Controller
     {
         if (isset($_POST["thread_id"]) || isset($_POST["reply_id"]))
             if (isset($_POST["thread_id"]))
-                return (new Threads($this->connection))->delete(pg_escape_string($_POST["thread_id"])) ? true : false;
+                return (new Threads($this->connection))->delete(pg_escape_string(trim($_POST["thread_id"]))) ? true : false;
             else
-                return (new Replies($this->connection))->delete(pg_escape_string($_POST["reply_id"])) ? true : false;
+                return (new Replies($this->connection))->delete(pg_escape_string(trim($_POST["reply_id"]))) ? true : false;
         else
             return false;
     }
 
     public function json()
     {
-        if ((isset($_POST["thread_id"]) || isset($_POST["reply_id"])) && isset($_SESSION["user_id"]) && $_SESSION["user_name"] === "admin")
+        if ((isset($_POST["thread_id"]) || isset($_POST["reply_id"])) && isset($_SESSION["user_id"]) && $_SESSION["user_is_admin"])
             if ($this->delete())
                 echo '1';
             else

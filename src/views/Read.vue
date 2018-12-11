@@ -19,10 +19,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col">
-              <router-link :to="'/board/' + thread.board_id" class="btn btn-default float-left" role="button">&laquo; Back to {{thread.board_name}}</router-link>
-            </div>
-            <div v-if="session.user_id">
+            <router-link :to="'/board/' + thread.board_id" class="btn btn-default float-left" role="button">&laquo; Back to {{thread.board_name}}</router-link>
+            <div v-if="session.user_id" class="col">
               <p class="float-right">
                 <button v-if="thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
                 <button v-if="!thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>

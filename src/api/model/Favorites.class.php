@@ -30,7 +30,7 @@ class Favorites extends Model
 
     public function selectAll($user_id)
     {
-        if (isset($user_id) && ($user_id) !== null) {
+        if (isset($user_id) && ($user_id)) {
             $result = pg_fetch_all(pg_query($this->connection, "SELECT * FROM favorites WHERE user_id='$user_id'"));
             return $result ? $result : null;
         } else

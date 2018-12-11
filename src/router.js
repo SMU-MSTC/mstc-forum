@@ -78,6 +78,11 @@ export default new Router({
       component: () => import('./views/Send')
     },
     {
+      path: '/search/:search',
+      name: 'search',
+      component: () => import('./views/Search')
+    },
+    {
       path: '/404',
       name: 'not-found',
       component: () => import('./views/NotFound')
