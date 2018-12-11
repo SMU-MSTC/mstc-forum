@@ -6,6 +6,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
+        <form @submit.prevent="submit" class="form-inline my-2 my-md-0">
+          <input v-model="search" class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>
         <ul v-if="!session.user_id" class="navbar-nav ml-auto">
           <li class="nav-item mr-auto">
             <router-link to="/register" class="nav-link">Register</router-link>
@@ -41,6 +44,21 @@
         user_id: null,
         user_is_admin: null,
         user_name: null
+      }
+    },
+    data() {
+      return {
+        search: null
+      }
+    },
+    methods: {
+      submit() {
+        const search = this.search
+        this.$router.push({
+          name: 'search',
+          params: { search },
+          props: true
+        })
       }
     }
   }

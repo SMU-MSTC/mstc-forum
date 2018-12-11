@@ -37,8 +37,7 @@ class Messages extends Model
             $message_query = "INSERT INTO messages (message_from, message_to, message_content, message_time, message_type) 
                               VALUES('$message_from', '$message_to', '$message_content', '$message_time', TRUE)";
             return pg_query($this->connection, $message_query) ? true : false;
-        }
-        else
+        } else
             return false;
     }
 
