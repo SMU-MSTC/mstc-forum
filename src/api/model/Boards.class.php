@@ -22,7 +22,7 @@ class Boards extends Model
 
     public function update($board_id, $board_name, $board_intro)
     {
-        if (pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM boards WHERE board_name='$board_name'"))["board_id"] !== $board_id)
+        if (pg_num_rows(pg_query($this->connection, "SELECT * FROM boards WHERE board_name='$board_name'")) !== 0)
             return false;
         else {
             $update_query = "UPDATE boards SET board_name='$board_name', board_intro='$board_intro' WHERE board_id='$board_id'";
