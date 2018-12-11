@@ -20,9 +20,9 @@
         <label for="user_birth" class="sr-only">Birthday</label>
         <input v-model="update.user_birth" type="date" id="user_birth" class="form-control">
         <label for="user_email" class="sr-only">Email</label>
-        <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email" required>
+        <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email">
         <label for="user_name" class="sr-only">Phone number</label>
-        <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number" required>
+        <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number">
         <label for="user_intro" class="sr-only">Intro</label>
         <textarea v-model="update.user_intro" type="text" id="user_intro" class="form-control" rows="3" placeholder="Intro"></textarea>
         <div v-if="tip.status === 'success'" class="alert alert-success">

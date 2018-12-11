@@ -28,9 +28,13 @@ class Message extends Controller
                 $message["message_is_read"] = true;
             elseif ($message["message_is_read"] === "f")
                 $message["message_is_read"] = false;
-            if ($message["message_type"] === false)
+            if ($message["message_type"] === false) {
                 $message["message_from_user_name"] = (new Users($this->connection))->selectAll($message["message_from"])["user_name"];
-            else {
+                if ($message["message_from_user_name"] === "admin")
+                    $message["message_from_user_is_admin"] = true;
+                else
+                    $message["message_from_user_is_admin"] = false;
+            } else {
                 $message["message_from_thread_id"] = (int)$this->model->select($message["message_from"], $message["message_content"], $message["message_time"])["thread_id"];
                 $message["message_from_thread_title"] = (new Threads($this->connection))->selectAll($message["message_from_thread_id"])["thread"]["thread_title"];
                 $message["message_from_user_name"] = (new Users($this->connection))->selectAll($message["message_from"])["user_name"];

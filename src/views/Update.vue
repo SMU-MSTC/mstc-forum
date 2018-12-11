@@ -2,7 +2,7 @@
   <div class="post">
     <Navigator :session="session" />
     <BoardJumbotron :info="board" />
-    <div v-if="session.user_name === 'admin'" class="update-page">
+    <div v-if="session.user_is_admin" class="update-page">
       <div class="container">
         <form @submit.prevent="submit" class="update-form">
           <label for="board_name" class="sr-only">Board Name</label>

@@ -28,7 +28,7 @@
                       </small></p>
                     </div>
                   </div>
-                  <div v-else-if="!message.message_type && message.message_from_user_name === 'admin'" class="list-group-item list-group-item-action">
+                  <div v-else-if="!message.message_type && message.message_from_user_is_admin" class="list-group-item list-group-item-action">
                     <div v-if="!message.message_is_read">
                       <p><b>{{message.message_content}}</b></p>
                       <p><small>From
@@ -55,7 +55,7 @@
             <div class="card-body">
               <div class="list-group">
                 <div v-for="message in messages" :key="message.message_id">
-                  <div v-if="!message.message_type && message.message_from_user_name !== 'admin'" class="list-group-item list-group-item-action">
+                  <div v-if="!message.message_type && !message.message_from_user_is_admin" class="list-group-item list-group-item-action">
                     <div v-if="!message.message_is_read">
                       <p><b>{{message.message_content}}</b></p>
                       <p><small>From
@@ -101,6 +101,7 @@
           message_type: null,
           message_is_read: null,
           message_from_user_name: null,
+          message_from_user_is_admin: null,
           message_from_thread_id: null,
           message_from_thread_title: null
         }
