@@ -21,7 +21,7 @@ class Database
          * @var string $user
          * @var string $password
          */
-        $this->connection = pg_connect("$host $port $dbname $user $password");
+        $this->connection = pg_pconnect("$host $port $dbname $user $password");
         if (!$this->connection) {
             exit("Connect failed: " . pg_last_error());
         }
