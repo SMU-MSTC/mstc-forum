@@ -5,7 +5,7 @@
         <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Update your information.</h1>
         <label for="user_name" class="sr-only">Username</label>
-        <input v-model="update.user_name" type="text" id="user_name" class="form-control" placeholder="Username" required autofocus>
+        <input v-model="update.user_name" type="text" id="user_name" class="form-control" placeholder="Username" required>
         <label for="user_password" class="sr-only">Password</label>
         <input v-model="update.user_password" type="password" id="user_password" class="form-control" placeholder="Password" required>
         <label for="new_password" class="sr-only">New password</label>
