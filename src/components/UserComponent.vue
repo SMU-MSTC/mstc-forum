@@ -75,9 +75,9 @@
             </tr>
             </tbody>
           </table>
-          <button v-if="session.user_is_admin && session.user_name === 'admin' && !user.user_is_admin" v-on:click="grant(user.user_id)" class="btn btn-warning">Grant admin privilege</button>
-          <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="btn btn-warning">Revoke admin privilege</button>
-          <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+          <button v-if="session.user_is_admin && session.user_name === 'admin' && !user.user_is_admin" v-on:click="grant(user.user_id)" class="row btn btn-warning">Grant admin privilege</button>
+          <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
+          <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="row btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
         </div>
       </div>
     </div>
