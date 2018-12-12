@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 global.jquery = jquery
 global.$ = jquery
-global.api = 'http://forum.localhost/api'
+global.api = 'http://test.vanka.site/api'
 global.md5 = md5
 
 Vue.config.productionTip = false

@@ -63,6 +63,7 @@ class Users extends Model
     public function update($update)
     {
         /**
+         * @var string $user_id
          * @var string $user_name
          * @var string $user_password
          * @var string $new_password
@@ -81,9 +82,9 @@ class Users extends Model
             $new_password = (isset($new_password) && $new_password !== "" && $new_password) ? md5($new_password) : $old_password;
             $update_query = "UPDATE users
                              SET user_name='$user_name', user_password='$new_password',
-                                 user_gender=NULLIF('$user_gender', ''), user_birth=TO_DATE(NULLIF('$user_birth', ''), 'YYYYMMDD'),
+                                 user_gender=NULLIF('$user_gender', ''), user_birth=TO_DATE(NULLIF('$user_birth', ''), 'YYYY-MM-DD'),
                                  user_email=NULLIF('$user_email', ''), user_tel=NULLIF('$user_tel', ''), user_intro=NULLIF('$user_intro', '')
-                             WHERE user_name='$user_name'";
+                             WHERE user_id='$user_id'";
             if ($old_password === $result["user_password"]) {
                 if (pg_query($this->connection, $update_query)) {
                     $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_name='$user_name'"));

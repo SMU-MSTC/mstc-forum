@@ -38,6 +38,7 @@ class User extends Controller
     {
         if (isset($_POST["user_name"]) && isset($_POST["user_password"])) {
             if ($_GET["user_id"] === $_SESSION["user_id"]) {
+                $update["user_id"] = $_SESSION["user_id"];
                 $update["user_name"] = pg_escape_string(trim($_POST["user_name"]));
                 $update["user_password"] = pg_escape_string(trim($_POST["user_password"]));
                 $update["new_password"] = pg_escape_string(trim($_POST["new_password"]));
