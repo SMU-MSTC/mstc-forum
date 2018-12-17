@@ -62,7 +62,7 @@ $ psql -d forum -f /path/to/src/Init.sql
 ```
 At least, you need to create a user named 'admin'.
 
-### Compiles and run
+### Run server
 ```
 $ npm run serve
 ```
