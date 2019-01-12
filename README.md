@@ -1,9 +1,9 @@
 # Forum Demo
 
 ## Intro
-This is a simple demo of forum written in PHP and Vue.js, front-end separated from back-end.
-- Front-end: vue-cli, vue-router
-- Back-end: PHP
+This is a simple demo of a forum written in PHP and Vue.js, frontend separated from backend.
+- Frontend: Vue CLI, Vue Router
+- Backend: PHP
 - Database: Postgresql
 
 ## Project setup
@@ -14,12 +14,12 @@ $ npm install
 ```
 
 ### Server Configuration
-Here is a sample of configuration file for nginx.
+Here is a sample of configuration file for Nginx.
 ```
 server {
 
     server_name     forum.localhost;
-    root    /path/to/php-vue-forum-demo/src/;
+    root    /path/to/forum-demo/src/;
 
     # For php files
     location ~ /api/(.*) {
@@ -33,7 +33,7 @@ server {
         include        fastcgi_params;
     }
 
-    # For webpage
+    # For webpages
     location / {
         # reverse proxy of node.js server
         proxy_pass http://localhost:8080;
@@ -43,14 +43,17 @@ server {
 ```
 
 ### Create database
-Please make sure that you have already installed postgresql.
+Please make sure that you have already installed Postgresql.
 ```
 $ createdb forum
 ```
 Tables will be created when the website is visited for the first time.
 
-### PHP database connection configuration
-Configure ```./src/api/config.example.php```  and rename it to ```config.php```.
+### PHP configuration
+Configure ```./src/api/config.example.php``` to connect database and rename it to ```config.php```.
+
+Make sure ```display_error=off``` in ```php.ini```.
+
 
 
 ### Initialize database

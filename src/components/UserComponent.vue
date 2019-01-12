@@ -1,83 +1,85 @@
 <template>
   <div class="user-component">
-    <div v-if="validate()" class="user-page" role="form">
-      <form @submit.prevent="submit" class="update-form">
-        <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Update your information.</h1>
-        <label for="user_name" class="sr-only">Username</label>
-        <input v-model="update.user_name" type="text" id="user_name" class="form-control" placeholder="Username" required>
-        <label for="user_password" class="sr-only">Password</label>
-        <input v-model="update.user_password" type="password" id="user_password" class="form-control" placeholder="Password" required>
-        <label for="new_password" class="sr-only">New password</label>
-        <input v-model="update.new_password" type="password" id="new_password" class="form-control" placeholder="New Password (Keep blank if you don't want to change)">
-        <label for="user_gender" class="sr-only">Gender</label>
-        <select v-model="update.user_gender" id="user_gender" class="form-control">
-          <option value=null selected hidden>Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="others">Others</option>
-        </select>
-        <label for="user_birth" class="sr-only">Birthday</label>
-        <input v-model="update.user_birth" type="date" id="user_birth" class="form-control">
-        <label for="user_email" class="sr-only">Email</label>
-        <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email">
-        <label for="user_name" class="sr-only">Phone number</label>
-        <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number">
-        <label for="user_intro" class="sr-only">Intro</label>
-        <textarea v-model="update.user_intro" type="text" id="user_intro" class="form-control" rows="3" placeholder="Intro"></textarea>
-        <div v-if="tip.status === 'success'" class="alert alert-success">
-          {{tip.message}}
-        </div>
-        <div v-if="tip.status === 'warn'" class="alert alert-warning">
-          {{tip.message}}
-        </div>
-        <div v-if="tip.status === 'fail'" class="alert alert-danger">
-          {{tip.message}}
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
-      </form>
-    </div>
-    <div v-else class="user-page">
-      <div class="user-info">
-        <div class="container">
-          <img class="mb-4" src="../assets/logo.png" alt="" width="72"
-               height="72">
-          <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-            <tr>
-              <th colspan="2">User Information</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th>Username</th>
-              <td>{{user.user_name}}</td>
-            </tr>
-            <tr>
-              <th>Gender</th>
-              <td>{{user.user_gender}}</td>
-            </tr>
-            <tr>
-              <th>Birthday</th>
-              <td>{{user.user_birth}}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
-              <td>{{user.user_email}}</td>
-            </tr>
-            <tr>
-              <th>Phone number</th>
-              <td>{{user.user_tel}}</td>
-            </tr>
-            <tr>
-              <th>Intro</th>
-              <td>{{user.user_intro}}</td>
-            </tr>
-            </tbody>
-          </table>
-          <button v-if="session.user_is_admin && session.user_name === 'admin' && !user.user_is_admin" v-on:click="grant(user.user_id)" class="row btn btn-warning">Grant admin privilege</button>
-          <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
-          <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="row btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+    <div v-if="loaded">
+      <div v-if="validate()" class="user-page" role="form">
+        <form @submit.prevent="submit" class="update-form">
+          <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
+          <h1 class="h3 mb-3 font-weight-normal">Update your information.</h1>
+          <label for="user_name" class="sr-only">Username</label>
+          <input v-model="update.user_name" type="text" id="user_name" class="form-control" placeholder="Username" required>
+          <label for="user_password" class="sr-only">Password</label>
+          <input v-model="update.user_password" type="password" id="user_password" class="form-control" placeholder="Password" required>
+          <label for="new_password" class="sr-only">New password</label>
+          <input v-model="update.new_password" type="password" id="new_password" class="form-control" placeholder="New Password (Keep blank if you don't want to change)">
+          <label for="user_gender" class="sr-only">Gender</label>
+          <select v-model="update.user_gender" id="user_gender" class="form-control">
+            <option value=null selected hidden>Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+          <label for="user_birth" class="sr-only">Birthday</label>
+          <input v-model="update.user_birth" type="date" id="user_birth" class="form-control">
+          <label for="user_email" class="sr-only">Email</label>
+          <input v-model="update.user_email" type="email" id="user_email" class="form-control" placeholder="Email">
+          <label for="user_name" class="sr-only">Phone number</label>
+          <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number">
+          <label for="user_intro" class="sr-only">Intro</label>
+          <textarea v-model="update.user_intro" type="text" id="user_intro" class="form-control" rows="3" placeholder="Intro"></textarea>
+          <div v-if="tip.status === 'success'" class="alert alert-success">
+            {{tip.message}}
+          </div>
+          <div v-if="tip.status === 'warn'" class="alert alert-warning">
+            {{tip.message}}
+          </div>
+          <div v-if="tip.status === 'fail'" class="alert alert-danger">
+            {{tip.message}}
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+        </form>
+      </div>
+      <div v-else class="user-page">
+        <div class="user-info">
+          <div class="container">
+            <img class="mb-4" src="../assets/logo.png" alt="" width="72"
+                 height="72">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+              <tr>
+                <th colspan="2">User Information</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th>Username</th>
+                <td>{{user.user_name}}</td>
+              </tr>
+              <tr>
+                <th>Gender</th>
+                <td>{{user.user_gender}}</td>
+              </tr>
+              <tr>
+                <th>Birthday</th>
+                <td>{{user.user_birth}}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>{{user.user_email}}</td>
+              </tr>
+              <tr>
+                <th>Phone number</th>
+                <td>{{user.user_tel}}</td>
+              </tr>
+              <tr>
+                <th>Intro</th>
+                <td>{{user.user_intro}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <button v-if="session.user_is_admin && session.user_name === 'admin' && !user.user_is_admin" v-on:click="grant(user.user_id)" class="row btn btn-warning">Grant admin privilege</button>
+            <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
+            <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="row btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -102,7 +104,8 @@
         user_email: null,
         user_tel: null,
         user_intro: null
-      }
+      },
+      loaded: null
     },
     data() {
       return {
@@ -147,11 +150,7 @@
         })
       },
       revoke(user_id) {
-        const self = this
-        $.post(api + '/user?user_id=' + user_id, { revoke: user_id }).done(() => {
-          self.$emit('update')
-          self.$emit('reload')
-        })
+        this.grant(user_id)
       },
       submit() {
         const self = this

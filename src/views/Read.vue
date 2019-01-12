@@ -6,7 +6,8 @@
         <div v-if="thread" class="container">
           <div class="row">
             <div class="col">
-              <h2>{{thread.thread_title}}</h2>
+              <h2 v-if="loaded">{{thread.thread_title}}</h2>
+              <h2 v-else>Loading...</h2>
             </div>
           </div>
           <div class="row">
@@ -40,7 +41,7 @@
         <hr>
       </div>
       <div class="replies" v-for="reply in replies" :key="reply.reply_id">
-        <div v-if="reply && !reply.reply_is_reply" class="container">
+        <div v-if="reply.reply_id && !reply.reply_is_reply" class="container">
           <div class="row">
             <div class="col">
               <p class="lead">{{reply.reply_content}}</p>
@@ -135,7 +136,7 @@
           thread_title: null,
           thread_content: null,
           thread_time: null,
-          thread_visible: null,
+          thread_visible: true,
           favorite: null
         },
         replies: {
@@ -151,7 +152,7 @@
             reply_reply_user_name: null,
             reply_reply_content: null,
             reply_reply_time: null,
-            reply_visible: null
+            reply_visible: true
           }
         },
         tip: {
@@ -159,7 +160,8 @@
           reply_id: null,
           status: null,
           message: null,
-        }
+        },
+        loaded: false
       }
     },
     methods: {
@@ -230,16 +232,12 @@
         $.get(api + '/read?thread_id=' + thread_id, (data) => {
           self.thread = data.thread
           self.replies = data.replies
+          self.loaded = true
         })
       }
     },
     beforeMount() {
-      const self = this
-      const thread_id = this.$route.params.thread_id
-      $.get(api + '/read?thread_id=' + thread_id, (data) => {
-        self.thread = data.thread
-        self.replies = data.replies
-      })
+      this.reload()
     }
   }
 </script>

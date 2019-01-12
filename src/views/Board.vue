@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <Navigator :session="session" />
-    <BoardJumbotron :info="board.info" />
+    <BoardJumbotron :info="board.info" :loaded="loaded" />
     <BoardComponent :session="session" :info="board.info" :threads="board.threads" @reload="reload" />
     <Foot />
   </div>
@@ -33,7 +33,8 @@
         board: {
           info: null,
           threads: null,
-        }
+        },
+        loaded: false
       }
     },
     methods: {
@@ -42,15 +43,12 @@
         const board_id = this.$route.params.board_id
         $.get(api + '/board?board_id=' + board_id, (data) => {
           self.board = data.board
+          self.loaded = true
         })
       }
     },
     beforeMount() {
-      const self = this
-      const board_id = this.$route.params.board_id
-      $.get(api + '/board?board_id=' + board_id, (data) => {
-        self.board = data.board
-      })
+      this.reload()
     }
   }
 </script>

@@ -1,31 +1,33 @@
 <template>
   <div class="board-component">
     <div class="threads" v-for="thread in threads" :key="thread.thread_id">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <h2>{{thread.thread_title}}</h2>
-            <p class="float-right">
-              <router-link :to="'/user/' + thread.user_id">{{thread.user_name}}</router-link>
-              {{thread.thread_time}}
-            </p>
+      <div v-if="thread.thread_id">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <h2>{{thread.thread_title}}</h2>
+              <p class="float-right">
+                <router-link :to="'/user/' + thread.user_id">{{thread.user_name}}</router-link>
+                {{thread.thread_time}}
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin" class="btn btn-danger ">&times; Delete</button>
-            <p class="float-right">
-              <button v-if="thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
-              <button v-if="!thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
-              <router-link :to="'/read/' + thread.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
-            </p>
+          <div class="row">
+            <div class="col">
+              <button v-on:click="deleteThread(thread.thread_id)" v-if="session.user_is_admin" class="btn btn-danger ">&times; Delete</button>
+              <p class="float-right">
+                <button v-if="thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-success">Favorited</button>
+                <button v-if="!thread.favorite && session.user_id" v-on:click="favorite(thread.thread_id)" class="btn btn-light">Favorite</button>
+                <router-link :to="'/read/' + thread.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
+              </p>
+            </div>
           </div>
+          <div v-if="!thread.thread_visible" class="tip row">
+            <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
+            <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
+          </div>
+          <hr>
         </div>
-        <div v-if="!thread.thread_visible" class="tip row">
-          <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
-          <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
-        </div>
-        <hr>
       </div>
     </div>
   </div>

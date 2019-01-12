@@ -5,35 +5,40 @@
       <div class="container">
         <div class="row">
           <div class="col">
-            <h1 v-if="favorites">Your favorites</h1>
-            <div v-else-if="!session.user_id" class="alert alert-danger">Please login first.</div>
-            <h1 v-if="!favorites">You have no favorites.</h1>
-            <p v-if="!favorites">Maybe your favorites have been deleted.</p>
+            <h1 v-if="loaded && favorites">Your favorites</h1>
+            <div v-else-if="loaded && !session.user_id" class="alert alert-danger">Please login first.</div>
+            <div v-if="loaded && !favorites">
+              <h1>You have no favorites.</h1>
+              <p>Maybe your favorites have been deleted.</p>
+            </div>
+            <h1 v-if="!loaded">Loading...</h1>
           </div>
         </div>
       </div>
     </div>
     <div class="favorite" v-for="favorite in favorites" :key="favorite.thread_id">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <h2>{{favorite.thread_title}}</h2>
-            <p class="float-right">
-              <router-link :to="'/user/' + favorite.user_id">{{favorite.user_name}}</router-link>
-              {{favorite.thread_time}}
-            </p>
+      <div v-if="favorite.thread_id">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <h2>{{favorite.thread_title}}</h2>
+              <p class="float-right">
+                <router-link :to="'/user/' + favorite.user_id">{{favorite.user_name}}</router-link>
+                {{favorite.thread_time}}
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <router-link :to="'/board/' + favorite.board_id" class="btn btn-default" role="button">&laquo; Go to {{favorite.board_name}}</router-link>
-          <div class="col">
-            <p class="float-right">
-              <button v-if="favorite.favorite && session.user_id" v-on:click="favor(favorite.thread_id)" class="btn btn-warning">Unfavorite</button>
-              <router-link :to="'/read/' + favorite.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
-            </p>
+          <div class="row">
+            <router-link :to="'/board/' + favorite.board_id" class="btn btn-default" role="button">&laquo; Go to {{favorite.board_name}}</router-link>
+            <div class="col">
+              <p class="float-right">
+                <button v-if="favorite.favorite && session.user_id" v-on:click="favor(favorite.thread_id)" class="btn btn-warning">Unfavorite</button>
+                <router-link :to="'/read/' + favorite.thread_id" class="btn btn-secondary" role="button">View &raquo;</router-link>
+              </p>
+            </div>
           </div>
+          <hr>
         </div>
-        <hr>
       </div>
     </div>
     <Foot />
@@ -71,7 +76,8 @@
             thread_time: null,
             favorite: null
           }
-        }
+        },
+        loaded: false
       }
     },
     methods: {
@@ -85,14 +91,12 @@
         const self = this
         $.get(api + '/favorite', (data) => {
           self.favorites = data.favorites
+          self.loaded = true
         })
       }
     },
     beforeMount() {
-      const self = this
-      $.get(api + '/favorite', (data) => {
-        self.favorites = data.favorites
-      })
+      this.reload()
     }
   }
 </script>

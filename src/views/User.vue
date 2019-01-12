@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <Navigator :session="session" />
-    <UserComponent :session="session" :user="user" @reload="reload" />
+    <UserComponent :session="session" :user="user" :loaded="loaded" @reload="reload" />
     <Foot />
   </div>
 </template>
@@ -36,7 +36,13 @@
           user_email: null,
           user_tel: null,
           user_intro: null
-        }
+        },
+        loaded: false
+      }
+    },
+    watch: {
+      '$route.params'() {
+        this.reload()
       }
     },
     methods: {
@@ -45,15 +51,12 @@
         const user_id = this.$route.params.user_id
         $.get(api + '/user?user_id=' + user_id, (data) => {
           self.user = data.user
+          self.loaded = true
         })
       }
     },
     beforeMount() {
-      const self = this
-      const user_id = this.$route.params.user_id
-      $.get(api + '/user?user_id=' + user_id, (data) => {
-        self.user = data.user
-      })
+      this.reload()
     }
   }
 </script>

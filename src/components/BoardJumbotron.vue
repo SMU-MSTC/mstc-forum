@@ -2,14 +2,24 @@
   <div class="board-jumbotron">
     <div class="jumbotron">
       <div class="container">
-        <h1 v-if="exist()" class="display-3">{{info.board_name}}</h1>
-        <h1 v-else class="display-3">Create new board</h1>
-        <p v-if="exist()">{{info.board_intro}}</p>
-        <div v-if="match()">
-          <p>
-            <router-link :to="'/post/' + info.board_id" class="btn btn-primary btn-lg" role="button">Post new thread &raquo;</router-link>
-          </p>
+        <div v-if="loaded">
+          <h1 v-if="exist()" class="display-3">{{info.board_name}}</h1>
+          <p v-if="exist()">{{info.board_intro}}</p>
+          <div v-if="match()">
+            <p>
+              <router-link :to="'/post/' + info.board_id" class="btn btn-primary btn-lg" role="button">Post new thread &raquo;</router-link>
+            </p>
+          </div>
         </div>
+        <div v-else>
+          <h1 v-if="exist()" class="display-3">Loading...</h1>
+          <div v-if="match()">
+            <p>
+              <router-link class="btn btn-primary btn-lg" role="button">Post new thread &raquo;</router-link>
+            </p>
+          </div>
+        </div>
+        <h1 v-if="!exist()" class="display-3">Create new board</h1>
       </div>
     </div>
   </div>
@@ -24,7 +34,7 @@
         board_name: null,
         board_intro: null
       },
-      action: null
+      loaded: null
     },
     methods: {
       match() {

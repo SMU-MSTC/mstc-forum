@@ -54,10 +54,8 @@ class Core
 
     public function run()
     {
-
         $this->init();
         $this->dispatch();
-
     }
 
 }

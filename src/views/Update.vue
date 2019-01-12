@@ -1,7 +1,7 @@
 <template>
   <div class="post">
     <Navigator :session="session" />
-    <BoardJumbotron :info="board" />
+    <BoardJumbotron :info="board" :loaded="loaded" />
     <div v-if="session.user_is_admin" class="update-page">
       <div class="container">
         <form @submit.prevent="submit" class="update-form">
@@ -56,7 +56,8 @@
         tip: {
           status: null,
           message: null,
-        }
+        },
+        loaded: false
       }
     },
     methods: {
@@ -90,6 +91,7 @@
       const board_id = this.$route.params.board_id
       $.get(api + '/board?board_id=' + board_id, (data) => {
         self.board = data.board.info
+        self.loaded = true
       })
     }
   }
