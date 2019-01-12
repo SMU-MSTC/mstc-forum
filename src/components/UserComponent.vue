@@ -41,8 +41,7 @@
       <div v-else class="user-page">
         <div class="user-info">
           <div class="container">
-            <img class="mb-4" src="../assets/logo.png" alt="" width="72"
-                 height="72">
+            <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
             <table class="table table-bordered table-hover">
               <thead class="thead-light">
               <tr>
@@ -80,6 +79,14 @@
             <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
             <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="row btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
           </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!loaded" class="user-page">
+      <div class="user-info">
+        <div class="container">
+          <img class="mb-4" src="../assets/logo.png" alt="" width="72" height="72">
+          <h1>Loading...</h1>
         </div>
       </div>
     </div>
@@ -150,7 +157,11 @@
         })
       },
       revoke(user_id) {
-        this.grant(user_id)
+        const self = this
+        $.post(api + '/user?user_id=' + user_id, { revoke: user_id }).done(() => {
+          self.$emit('update')
+          self.$emit('reload')
+        })
       },
       submit() {
         const self = this
