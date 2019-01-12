@@ -75,9 +75,13 @@
               </tr>
               </tbody>
             </table>
-            <button v-if="session.user_is_admin && session.user_name === 'admin' && !user.user_is_admin" v-on:click="grant(user.user_id)" class="row btn btn-warning">Grant admin privilege</button>
-            <button v-if="session.user_is_admin && session.user_name === 'admin' && user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
-            <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="row btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
+            <div v-if="session.user_is_admin && session.user_name === 'admin'" class="row">
+              <button v-if="!user.user_is_admin" v-on:click="grant(user.user_id)" class="row btn btn-warning">Grant admin privilege</button>
+              <br />
+              <br />
+              <button v-if="user.user_is_admin" v-on:click="revoke(user.user_id)" class="row btn btn-warning">Revoke admin privilege</button>
+            </div>
+            <router-link :to="'/send/' + user.user_id" v-if="session.user_id" class="btn btn-primary" role="button">Send message to {{user.user_name}} &raquo;</router-link>
           </div>
         </div>
       </div>
@@ -212,7 +216,7 @@
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
-    align-items: center;
+    /*align-items: center;*/
     text-align: center;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -267,7 +271,11 @@
     margin-bottom: 40px;
   }
 
-  .user-page .btn {
+  .user-page .row {
+    margin: auto;
+  }
+
+  .user-page .row .btn {
     margin-top: 10px;
     margin-bottom: 10px;
   }
