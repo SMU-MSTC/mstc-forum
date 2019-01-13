@@ -5,16 +5,16 @@ class Users extends Model
 {
 
     protected $create_string = "CREATE TABLE IF NOT EXISTS users (
-                                    user_id serial NOT NULL PRIMARY KEY,
-                                    user_name varchar(32) NOT NULL UNIQUE,
-                                    user_password text NOT NULL,
-                                    user_is_admin boolean NOT NULL DEFAULT FALSE,
-                                    user_gender varchar(16),
-                                    user_birth date,
-                                    user_email varchar(64),
-                                    user_tel varchar(64),
-                                    user_intro text
-                                );";
+                                   user_id serial NOT NULL PRIMARY KEY,
+                                   user_name varchar(32) NOT NULL UNIQUE,
+                                   user_password text NOT NULL,
+                                   user_is_admin boolean NOT NULL DEFAULT FALSE,
+                                   user_gender varchar(16),
+                                   user_birth date,
+                                   user_email varchar(64),
+                                   user_tel varchar(64),
+                                   user_intro text
+                                 );";
 
     public function register($register)
     {
@@ -82,8 +82,8 @@ class Users extends Model
             $new_password = (isset($new_password) && $new_password !== "" && $new_password) ? md5($new_password) : $old_password;
             $update_query = "UPDATE users
                              SET user_name='$user_name', user_password='$new_password',
-                                 user_gender=NULLIF('$user_gender', ''), user_birth=TO_DATE(NULLIF('$user_birth', ''), 'YYYY-MM-DD'),
-                                 user_email=NULLIF('$user_email', ''), user_tel=NULLIF('$user_tel', ''), user_intro=NULLIF('$user_intro', '')
+                               user_gender=NULLIF('$user_gender', ''), user_birth=TO_DATE(NULLIF('$user_birth', ''), 'YYYY-MM-DD'),
+                               user_email=NULLIF('$user_email', ''), user_tel=NULLIF('$user_tel', ''), user_intro=NULLIF('$user_intro', '')
                              WHERE user_id='$user_id'";
             if ($old_password === $result["user_password"]) {
                 if (pg_query($this->connection, $update_query)) {

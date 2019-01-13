@@ -39,13 +39,8 @@ class Favorite extends Controller
             foreach ($this->array["favorites"] as $key => &$favorite) {
                 $favorite["thread_id"] = (int)$favorite["thread_id"];
                 $favorite["user_id"] = (int)$favorite["user_id"];
-                $favorite["user_name"] = (new Users($this->connection))->selectAll($favorite["user_id"])["user_name"];
-                $favorite["board_id"] = (int)(new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["board_id"];
-                $favorite["board_name"] = (new Boards($this->connection))->selectAll($favorite["board_id"])["info"]["board_name"];
-                $favorite["thread_title"] = (new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["thread_title"];
-                $favorite["thread_content"] = (new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["thread_content"];
-                $favorite["thread_time"] = date("Y-m-d h:i:s", strtotime((new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["thread_time"]));
-                $favorite["thread_visible"] = (new Threads($this->connection))->selectAll($favorite["thread_id"])["thread"]["thread_visible"];
+                $favorite["board_id"] = (int)$favorite["board_id"];
+                $favorite["thread_time"] = date("Y-m-d h:i:s", strtotime($favorite["thread_time"]));
                 if ($favorite["thread_visible"] === "f")
                     $favorite["thread_visible"] = false;
                 elseif ($favorite["thread_visible"] === "t")

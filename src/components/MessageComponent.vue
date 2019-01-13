@@ -5,7 +5,7 @@
         <div class="accordion" id="message-box">
           <div class="card">
             <div class="card-header" id="sys-notice">
-              <button class="btn btn-link btn-lg" type="button" data-toggle="collapse" data-target="#notice" aria-expanded="true" aria-controls="notice">System Notice</button>
+              <button class="btn btn-link btn-lg" type="button" data-toggle="collapse" data-target="#notice" aria-expanded="true" aria-controls="notice">System Notices</button>
             </div>
             <div id="notice" class="collapse show" aria-labelledby="sys-notice" data-parent="#message-box">
               <div class="card-body">

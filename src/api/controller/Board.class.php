@@ -56,7 +56,6 @@ class Board extends Controller
             foreach ($this->array["board"]["threads"] as $key => &$thread) {
                 $thread["thread_id"] = (int)$thread["thread_id"];
                 $thread["user_id"] = (int)$thread["user_id"];
-                $thread["user_name"] = (new Users($this->connection))->selectAll($thread["user_id"])["user_name"];
                 $thread["board_id"] = (int)$thread["board_id"];
                 $thread["thread_time"] = date("Y-m-d h:i:s", strtotime($thread["thread_time"]));
                 if ($thread["thread_visible"] === "f")

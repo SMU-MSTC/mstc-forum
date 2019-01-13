@@ -13,15 +13,16 @@ class Reply extends Controller
 
     public function reply()
     {
+        $reply_content = pg_escape_string(trim($_POST["reply_content"]));
+        $reply_time = date("Y-m-d h:i:s");
         if (isset($_POST["reply_id"])) {
-            $reply_content = pg_escape_string(trim($_POST["reply_content"]));
-            $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_id" => $_POST["reply_id"], "reply_content" => $reply_content);
-            $message = array("message_reply_id" => $_POST["reply_id"], "message_from" => $_SESSION["user_id"], "message_content" => $reply_content);
+            $reply = array("user_id" => (int)$_SESSION["user_id"], "thread_id" => (int)$_POST["thread_id"], "reply_id" => (int)$_POST["reply_id"], "reply_content" => $reply_content, "reply_time" => $reply_time);
+            $message = array("message_reply_id" => (int)$_POST["reply_id"], "message_from" => (int)$_SESSION["user_id"], "message_content" => $reply_content, "message_time" => $reply_time);
             return $this->model->reply($reply) && (new Messages($this->connection))->reply($message);
         } else {
             $reply_content = pg_escape_string(trim($_POST["reply_content"]));
-            $reply = array("user_id" => $_SESSION["user_id"], "thread_id" => $_POST["thread_id"], "reply_content" => $reply_content);
-            $message = array("message_thread_id" => $_POST["thread_id"], "message_from" => $_SESSION["user_id"], "message_content" => $reply_content);
+            $reply = array("user_id" => (int)$_SESSION["user_id"], "thread_id" => (int)$_POST["thread_id"], "reply_content" => $reply_content, "reply_time" => $reply_time);
+            $message = array("message_thread_id" => (int)$_POST["thread_id"], "message_from" => (int)$_SESSION["user_id"], "message_content" => $reply_content, "message_time" => $reply_time);
             return $this->model->reply($reply) && (new Messages($this->connection))->reply($message);
         }
     }

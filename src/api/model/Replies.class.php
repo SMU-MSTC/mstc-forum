@@ -5,15 +5,15 @@ class Replies extends Model
 {
 
     protected $create_string = "CREATE TABLE IF NOT EXISTS replies (
-                                    reply_id serial NOT NULL PRIMARY KEY,
-                                    user_id serial NOT NULL REFERENCES users,
-                                    thread_id serial NOT NULL REFERENCES threads,
-                                    reply_content text NOT NULL,
-                                    reply_time timestamp NOT NULL,
-                                    reply_visible boolean NOT NULL DEFAULT TRUE,
-                                    reply_is_reply boolean NOT NULL DEFAULT FALSE,
-                                    reply_reply_id integer REFERENCES replies (reply_id) DEFAULT NULL
-                                );";
+                                   reply_id serial NOT NULL PRIMARY KEY,
+                                   user_id serial NOT NULL REFERENCES users,
+                                   thread_id serial NOT NULL REFERENCES threads,
+                                   reply_content text NOT NULL,
+                                   reply_time timestamp NOT NULL,
+                                   reply_visible boolean NOT NULL DEFAULT TRUE,
+                                   reply_is_reply boolean NOT NULL DEFAULT FALSE,
+                                   reply_reply_id integer REFERENCES replies (reply_id) DEFAULT NULL
+                                 );";
 
     public function reply($reply)
     {
@@ -23,9 +23,9 @@ class Replies extends Model
              * @var int $thread_id
              * @var int $reply_id
              * @var string $reply_content
+             * @var string $reply_time
              */
             extract($reply);
-            $reply_time = date("Y-m-d h:i:s");
             if (isset($reply_id)) {
                 $reply_query = "INSERT INTO replies (user_id, thread_id, reply_content, reply_time, reply_is_reply, reply_reply_id)
                                 VALUES ('$user_id', '$thread_id', '$reply_content', '$reply_time', TRUE, '$reply_id')";

@@ -17,9 +17,7 @@ class Read extends Controller
     {
         $this->array["thread"]["thread_id"] = (int)$this->array["thread"]["thread_id"];
         $this->array["thread"]["user_id"] = (int)$this->array["thread"]["user_id"];
-        $this->array["thread"]["user_name"] = (new Users($this->connection))->selectAll($this->array["thread"]["user_id"])["user_name"];
         $this->array["thread"]["board_id"] = (int)$this->array["thread"]["board_id"];
-        $this->array["thread"]["board_name"] = (new Boards($this->connection))->selectAll($this->array["thread"]["board_id"])["info"]["board_name"];
         $this->array["thread"]["thread_time"] = date("Y-m-d h:i:s", strtotime($this->array["thread"]["thread_time"]));
         if (isset($_SESSION["user_id"]) && $_SESSION["user_id"])
             $this->array["thread"]["favorite"] = (new Favorites($this->connection))->isFavorite($_SESSION["user_id"], $this->array["thread"]["thread_id"]);
