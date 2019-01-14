@@ -74,10 +74,10 @@ class Users extends Model
          * @var string $user_intro
          */
         extract($update);
-        if (pg_num_rows(pg_query($this->connection, "SELECT * FROM users WHERE user_name='$user_name'")) === 0)
+        if (pg_num_rows(pg_query($this->connection, "SELECT * FROM users WHERE user_id='$user_id'")) === 0)
             return false;
         else {
-            $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_name='$user_name'"));
+            $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_id='$user_id'"));
             $old_password = md5($user_password);
             $new_password = (isset($new_password) && $new_password !== "" && $new_password) ? md5($new_password) : $old_password;
             $update_query = "UPDATE users
@@ -87,7 +87,7 @@ class Users extends Model
                              WHERE user_id='$user_id'";
             if ($old_password === $result["user_password"]) {
                 if (pg_query($this->connection, $update_query)) {
-                    $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_name='$user_name'"));
+                    $result = pg_fetch_assoc(pg_query($this->connection, "SELECT * FROM users WHERE user_id='$user_id'"));
                     if ($result) {
                         $this->remember($result["user_id"], $result["user_name"], $result["user_is_admin"]);
                         return true;
