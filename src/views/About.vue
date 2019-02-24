@@ -8,7 +8,7 @@
         <ul class="list-group">
           <li class="list-group-item">Frontend: Vue.js (Vue CLI & Vue Router)</li>
           <li class="list-group-item">Backend: PHP</li>
-          <li class="list-group-item">Database: Postgresql</li>
+          <li class="list-group-item">Database: PostgreSQL</li>
         </ul>
         <hr>
         <p>For more information, please view <a href="https://github.com/airstone42/forum-demo">https://github.com/airstone42/forum-demo</a> .</p>

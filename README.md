@@ -4,7 +4,7 @@
 This is a simple demo of a forum written in PHP and Vue.js, frontend separated from backend.
 - Frontend: Vue CLI, Vue Router
 - Backend: PHP
-- Database: Postgresql
+- Database: PostgreSQL
 
 ## Project setup
 
@@ -43,7 +43,7 @@ server {
 ```
 
 ### Create database
-Please make sure that you have already installed Postgresql.
+Please make sure that you have already installed PostgreSQL.
 ```
 $ createdb forum
 ```
