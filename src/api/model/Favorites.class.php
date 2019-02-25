@@ -34,7 +34,7 @@ class Favorites extends Model
             $result = pg_fetch_all(pg_query($this->connection, "SELECT favorites.*, threads.*, boards.board_name, users.user_name FROM favorites
                                                                         LEFT JOIN threads ON threads.thread_id=favorites.thread_id
                                                                         LEFT JOIN boards ON boards.board_id=threads.thread_id
-                                                                        LEFT JOIN users ON users.user_id=favorites.user_id
+                                                                        LEFT JOIN users ON users.user_id=threads.user_id
                                                                       WHERE favorites.user_id='$user_id'"));
             return $result ? $result : null;
         } else
