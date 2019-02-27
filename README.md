@@ -1,8 +1,10 @@
-# Forum Demo
+# MSTC Forum
 
-## Intro
-This is a simple demo of a forum written in PHP and Vue.js, frontend separated from backend.
-- Frontend: Vue CLI, Vue Router
+[简体中文](README-zh_CN.md)
+
+## Introduction
+This is a simple forum written in PHP and Vue.js.
+- Frontend: Vue.js & Vue Router
 - Backend: PHP
 - Database: PostgreSQL
 
@@ -14,16 +16,16 @@ $ npm install
 ```
 
 ### Server Configuration
-Here is a sample of configuration file for Nginx.
+Here is a sample of the configuration file for Nginx.
 ```
 server {
 
     server_name     forum.localhost;
-    root    /path/to/forum-demo/src/;
+    root    /path/to/forum/;
 
-    # For php files
+    # For PHP files
     location ~ /api/(.*) {
-        # pass all requests to index.php
+        # pass all requests to api/index.php
         try_files $uri $uri/ /api/index.php?$query_string;
 
         # php-fpm configuration, probably platform dependent
@@ -33,9 +35,9 @@ server {
         include        fastcgi_params;
     }
 
-    # For webpages
+    # For Vue.js webpages
     location / {
-        # reverse proxy of node.js server
+        # reverse proxy of Node.js server
         proxy_pass http://localhost:8080;
     }
 
@@ -50,18 +52,16 @@ $ createdb forum
 Tables will be created when the website is visited for the first time.
 
 ### PHP configuration
-Configure ```./src/api/config.example.php``` to connect database and rename it to ```config.php```.
+Configure ```api/config.example.php``` to connect the database and rename it to ```config.php```.
 
 Make sure ```display_error=off``` in ```php.ini```.
 
-
-
 ### Initialize database
-When the configuration is completed, you can manually access ```http(s)://forum.localhost/api/``` to initialize the tables in database.
+When the configuration is completed, you can manually access ```http(s)://forum.localhost/api/``` to initialize the tables in the database.
 
-After tables are created, you can run ```./src/Init.sql``` to insert some initial data into database.
+After tables are created, you can run ```Init.sql``` to insert some initial data into the database.
 ```
-$ psql -d forum -f /path/to/src/Init.sql
+$ psql -d forum -f /path/to/Init.sql
 ```
 At least, you need to create a user named 'admin'.
 
@@ -72,9 +72,9 @@ $ npm run serve
 Then you can access ```http(s)://forum.localhost```.
 
 ### Customize configuration
-If you want to change ```server_name```, don't forget to change the value of variable ```global.api``` in ```./src/main.js```.
+If you want to change ```server_name```, don't forget to change the value of variable ```global.api``` in ```src/main.js```.
 
 ## Demo page
 Here is a demo view https://forum.airstone42.xyz .
 
-You can login as user ```admin``` with password ```admin```, and your changes will not be saved in database.
+You can log in as user ```admin``` with password ```admin```, and your changes will not be saved in the database.
