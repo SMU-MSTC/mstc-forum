@@ -1,8 +1,8 @@
 .DS_Store
+.idea
 node_modules
 /dist
-/src/api/config.php
-/src/api/.idea
+/api/config.php
 
 # local env files
 .env.local
