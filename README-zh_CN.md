@@ -75,6 +75,6 @@ $ npm run serve
 如果你要修改 ```server_name``` ，别忘了修改 ```src/main.js``` 中的变量 ```global.api``` 。
 
 ## 预览
-这是网站预览 https://forum.airstone42.xyz 。
+这是网站预览 https://forum.airstone.me 。
 
 你可以使用 ```admin``` 登录，密码是 ```admin``` ，你所做的更改只会暂时保存到服务器中。
