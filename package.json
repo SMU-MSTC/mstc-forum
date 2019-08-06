@@ -13,7 +13,7 @@
     "js-md5": "^0.7.3",
     "popper.js": "^1.14.7",
     "vue": "^2.6.7",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.1",
