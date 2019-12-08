@@ -11,7 +11,7 @@
           <li class="list-group-item">Database: PostgreSQL</li>
         </ul>
         <hr>
-        <p>For more information, please view <a href="https://github.com/SMU-MSTC/mstc-forum">https://github.com/SMU-MSTC/mstc-forum</a> .</p>
+        <p>For more information, please view <a href="https://github.com/SMU-CAA/forum-demo">https://github.com/SMU-CAA/forum-demo</a> .</p>
       </div>
     </div>
     <Foot />
