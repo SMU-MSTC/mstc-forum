@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . "/../controller/Controller.class.php";
-require_once __DIR__ . "/../model/Threads.class.php";
-require_once __DIR__ . "/../model/Replies.class.php";
+require_once __DIR__ . "/../controller/Controller.php";
+require_once __DIR__ . "/../model/Threads.php";
+require_once __DIR__ . "/../model/Replies.php";
 
 class Delete extends Controller
 {

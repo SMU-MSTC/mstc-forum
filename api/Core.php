@@ -8,12 +8,12 @@ class Core
     public function __construct()
     {
         spl_autoload_register(function ($class_name) {
-            if (is_file(__DIR__ . "/" . $class_name . ".class.php"))
-                require_once __DIR__ . "/" . $class_name . ".class.php";
-            else if (is_file(__DIR__ . "/model/" . $class_name . ".class.php"))
-                require_once __DIR__ . "/model/" . $class_name . ".class.php";
-            else if (is_file(__DIR__ . "/controller/" . $class_name . ".class.php"))
-                require_once __DIR__ . "/controller/" . $class_name . ".class.php";
+            if (is_file(__DIR__ . "/" . $class_name . ".php"))
+                require_once __DIR__ . "/" . $class_name . ".php";
+            else if (is_file(__DIR__ . "/model/" . $class_name . ".php"))
+                require_once __DIR__ . "/model/" . $class_name . ".php";
+            else if (is_file(__DIR__ . "/controller/" . $class_name . ".php"))
+                require_once __DIR__ . "/controller/" . $class_name . ".php";
             else if (is_file(__DIR__ . "/view/" . $class_name . ".view.php"))
                 require_once __DIR__ . "/view/" . $class_name . ".view.php";
         });
@@ -43,7 +43,7 @@ class Core
             $controller_name = "Index";
         else
             $controller_name = ucfirst(explode('/', $path)[count(explode('/', $path)) - 1]);
-        if (!is_file(__DIR__ . "/controller/" . $controller_name . ".class.php"))
+        if (!is_file(__DIR__ . "/controller/" . $controller_name . ".php"))
             $controller_name = "NotFound";
         $controller = new $controller_name($this->connection);
         /**

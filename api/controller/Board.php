@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../controller/Controller.class.php";
-require_once __DIR__ . "/../model/Boards.class.php";
+require_once __DIR__ . "/../controller/Controller.php";
+require_once __DIR__ . "/../model/Boards.php";
 
 class Board extends Controller
 {

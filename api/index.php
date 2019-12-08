@@ -1,4 +1,4 @@
 <?php
-require "Core.class.php";
+require "Core.php";
 
 (new Core())->run();
