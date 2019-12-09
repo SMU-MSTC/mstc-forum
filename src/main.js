@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 function extract(form) {
   const formData = new FormData()
   for (const key in form) {
-    if (form.hasOwnProperty(key))
+    if (form.hasOwnProperty(key) && form[key])
       formData.append(key, form[key])
   }
   return formData
