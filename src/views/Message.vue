@@ -45,9 +45,13 @@
     },
     beforeMount() {
       const self = this
-      $.get(api + '/message', (data) => {
-        self.messages = data.message
-      })
+      fetch(api + '/message')
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          self.messages = data.message
+        })
     }
   }
 </script>

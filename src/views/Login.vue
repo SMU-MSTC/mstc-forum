@@ -51,28 +51,32 @@
       submit() {
         const self = this
         this.login.user_password = md5(this.login.user_password)
-        $.post(api + '/login', this.login).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Login successful!'
-            self.$emit('update')
-            setTimeout(() => {
-              self.tip.message = 'Redirecting in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.$router.push('/')
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Login failed!'
-            self.login.user_name = null
-            self.login.user_password = null
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/login', this.post(this.login))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Login successful!'
+              self.$emit('update')
+              setTimeout(() => {
+                self.tip.message = 'Redirecting in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.$router.push('/')
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Login failed!'
+              self.login.user_name = null
+              self.login.user_password = null
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       }
     }
   }

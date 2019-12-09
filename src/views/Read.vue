@@ -193,47 +193,59 @@
         })
         self.tip.flag = (self.tip.flag !== true)
         self.tip.reply_id = reply_id
-        $.post(api + '/delete', { reply_id: reply_id }).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Delete successfully!'
-            setTimeout(() => {
-              self.tip.message = 'Reloading in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.tip.flag = false
-              self.tip.reply_id = null
-              self.reload()
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Delete failed!!'
-            self.tip.reply_id = false
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.tip.flag = false
-              self.$emit('reload')
-            }, 2000)
-          }
-        })
+        fetch(api + '/delete', this.post({ reply_id: reply_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Delete successfully!'
+              setTimeout(() => {
+                self.tip.message = 'Reloading in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.tip.flag = false
+                self.tip.reply_id = null
+                self.reload()
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Delete failed!!'
+              self.tip.reply_id = false
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.tip.flag = false
+                self.$emit('reload')
+              }, 2000)
+            }
+          })
       },
       favorite(thread_id) {
         const self = this
-        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
-          self.reload()
-        })
+        fetch(api + '/favorite', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.reload()
+          })
       },
       reload() {
         const self = this
         const thread_id = this.$route.params.thread_id
-        $.get(api + '/read?thread_id=' + thread_id, (data) => {
-          self.thread = data.thread
-          self.replies = data.replies
-          self.loaded = true
-        })
+        fetch(api + '/read?thread_id=' + thread_id)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.thread = data.thread
+            self.replies = data.replies
+            self.loaded = true
+          })
       }
     },
     beforeMount() {

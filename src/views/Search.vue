@@ -179,18 +179,26 @@
       '$route.params'() {
         const self = this
         const search = this.$route.params.search
-        $.post(api + "/search", { search: search }).done((data) => {
-          self.threads = data.threads
-          self.replies = data.replies
-        })
+        fetch(api + "/search", this.post({ search: search }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.threads = data.threads
+            self.replies = data.replies
+          })
       },
       'change'() {
         const self = this
         const search = this.$route.params.search
-        $.post(api + "/search", { search: search }).done((data) => {
-          self.threads = data.threads
-          self.replies = data.replies
-        })
+        fetch(api + "/search", this.post({ search: search }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.threads = data.threads
+            self.replies = data.replies
+          })
       }
     },
     methods: {
@@ -204,28 +212,32 @@
               item.thread_visible = false
           }
         })
-        $.post(api + '/delete', { thread_id: thread_id }).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Delete successfully!'
-            setTimeout(() => {
-              self.tip.message = 'Reloading in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.$emit('update')
-              this.change = (this.change === false)
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Delete failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/delete', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Delete successfully!'
+              setTimeout(() => {
+                self.tip.message = 'Reloading in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.$emit('update')
+                this.change = (this.change === false)
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Delete failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       },
       deleteReply(reply_id) {
         const self = this
@@ -239,47 +251,59 @@
         })
         self.tip.flag = (self.tip.flag !== true)
         self.tip.reply_id = reply_id
-        $.post(api + '/delete', { reply_id: reply_id }).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Delete successfully!'
-            setTimeout(() => {
-              self.tip.message = 'Reloading in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.tip.flag = false
-              self.tip.reply_id = null
-              this.change = (this.change === false)
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Delete failed!!'
-            self.tip.reply_id = false
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.tip.flag = false
-            }, 2000)
-          }
-        })
+        fetch(api + '/delete', this.post({ reply_id: reply_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Delete successfully!'
+              setTimeout(() => {
+                self.tip.message = 'Reloading in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.tip.flag = false
+                self.tip.reply_id = null
+                this.change = (this.change === false)
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Delete failed!!'
+              self.tip.reply_id = false
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.tip.flag = false
+              }, 2000)
+            }
+          })
       },
       favorite(thread_id) {
         const self = this
         this.change = (this.change === false)
-        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
-          self.$emit('reload')
-        })
+        fetch(api + '/favorite', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.$emit('reload')
+          })
       }
     },
     beforeMount() {
       const self = this
       const search = this.$route.params.search
-      $.post(api + "/search", { search: search }).done((data) => {
-        self.threads = data.threads
-        self.replies = data.replies
-      })
+      fetch(api + "/search", this.post({ search: search }))
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          self.threads = data.threads
+          self.replies = data.replies
+        })
     }
   }
 </script>

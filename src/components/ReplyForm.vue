@@ -2,7 +2,8 @@
   <div class="reply">
     <form @submit.prevent="submit" class="reply-form">
       <label for="reply_content" class="sr-only">Reply</label>
-      <textarea v-model="reply_content" type="text" id="reply_content" class="form-control" rows="3" placeholder="Reply"></textarea>
+      <textarea v-model="reply_content" type="text" id="reply_content"
+                class="form-control" rows="3" placeholder="Reply"/>
       <div v-if="tip.status === 'success'" class="alert alert-success">
         {{tip.message}}
       </div>
@@ -42,28 +43,32 @@
           reply_id: self.reply_id,
           reply_content: self.reply_content
         }
-        $.post(api + '/reply', reply).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Reply successfully!'
-            setTimeout(() => {
-              self.tip.message = 'Reloading in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.$emit('update')
-              self.$emit('reload')
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Reply failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/reply', this.post(reply))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Reply successfully!'
+              setTimeout(() => {
+                self.tip.message = 'Reloading in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.$emit('update')
+                self.$emit('reload')
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Reply failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       }
     }
   }

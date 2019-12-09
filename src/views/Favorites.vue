@@ -83,16 +83,24 @@
     methods: {
       favor(thread_id) {
         const self = this
-        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
-          self.reload()
-        })
+        fetch(api + '/favorite', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.reload()
+          })
       },
       reload() {
         const self = this
-        $.get(api + '/favorite', (data) => {
-          self.favorites = data.favorites
-          self.loaded = true
-        })
+        fetch(api + '/favorite')
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.favorites = data.favorites
+            self.loaded = true
+          })
       }
     },
     beforeMount() {

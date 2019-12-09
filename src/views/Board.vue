@@ -41,10 +41,14 @@
       reload() {
         const self = this
         const board_id = this.$route.params.board_id
-        $.get(api + '/board?board_id=' + board_id, (data) => {
-          self.board = data.board
-          self.loaded = true
-        })
+        fetch(api + '/board?board_id=' + board_id)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.board = data.board
+            self.loaded = true
+          })
       }
     },
     beforeMount() {

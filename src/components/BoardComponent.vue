@@ -78,35 +78,43 @@
               item.thread_visible = false
           }
         })
-        $.post(api + '/delete', { thread_id: thread_id }).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Delete successfully!'
-            setTimeout(() => {
-              self.tip.message = 'Reloading in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-              self.$emit('update')
-              self.$emit('reload')
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Delete failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null .
-              self.$emit('reload')
-            }, 2000)
-          }
-        })
+        fetch(api + '/delete', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Delete successfully!'
+              setTimeout(() => {
+                self.tip.message = 'Reloading in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+                self.$emit('update')
+                self.$emit('reload')
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Delete failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null .
+                self.$emit('reload')
+              }, 2000)
+            }
+          })
       },
       favorite(thread_id) {
         const self = this
-        $.post(api + '/favorite', { thread_id: thread_id }).done(() => {
-          self.$emit('reload')
-        })
+        fetch(api + '/favorite', this.post({ thread_id: thread_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.$emit('reload')
+          })
       }
     }
   }

@@ -49,10 +49,14 @@
       reload() {
         const self = this
         const user_id = this.$route.params.user_id
-        $.get(api + '/user?user_id=' + user_id, (data) => {
-          self.user = data.user
-          self.loaded = true
-        })
+        fetch(api + '/user?user_id=' + user_id)
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.user = data.user
+            self.loaded = true
+          })
       }
     },
     beforeMount() {

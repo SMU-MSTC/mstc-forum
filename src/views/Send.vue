@@ -10,7 +10,9 @@
       <div class="container">
         <form @submit.prevent="submit" class="send-form">
           <label for="content" class="sr-only">Thread Content</label>
-          <textarea v-model="send.content" type="text" id="content" class="form-control" rows="3" placeholder="Content" required autofocus></textarea>
+          <textarea v-model="send.content" type="text" id="content"
+                    class="form-control" rows="3" placeholder="Content" required
+                    autofocus/>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
@@ -58,34 +60,42 @@
       submit() {
         const self = this
         const user_id = this.$route.params.user_id
-        $.post(api + '/send?user_id=' + user_id, this.send).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Send successfully!'
-            self.$emit('update')
-            setTimeout(() => {
-              self.tip.message = 'Redirecting in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.$router.push('/user/' + user_id)
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Send failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/send?user_id=' + user_id, this.post(this.send))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Send successfully!'
+              self.$emit('update')
+              setTimeout(() => {
+                self.tip.message = 'Redirecting in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.$router.push('/user/' + user_id)
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Send failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       }
     },
     beforeMount() {
       const self = this
       this.send.to = this.$route.params.user_id
-      $.get(api + '/user?user_id=' + this.send.to, (data) => {
-        self.send.user_name = data.user.user_name
-      })
+      fetch(api + '/user?user_id=' + this.send.to)
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          self.send.user_name = data.user.user_name
+        })
     }
   }
 </script>

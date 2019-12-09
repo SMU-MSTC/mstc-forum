@@ -77,29 +77,33 @@
           }, 2000)
         } else {
           this.register.user_password = md5(this.register.user_password)
-          $.post(api + '/register', this.register).done((data) => {
-            if (data.toString() === '1') {
-              self.tip.status = 'success'
-              self.tip.message = 'Register successful!'
-              self.$emit('update')
-              setTimeout(() => {
-                self.tip.message = 'Redirecting in 2 seconds.'
-              }, 1000)
-              setTimeout(() => {
-                self.$router.push('/')
-              }, 2000)
-            } else if (data.toString() === '0') {
-              self.tip.status = 'fail'
-              self.tip.message = 'Register failed!'
-              self.register.user_name = null
-              self.register.user_password = null
-              self.register.confirm_password = null
-              setTimeout(() => {
-                self.tip.status = null
-                self.tip.message = null
-              }, 2000)
-            }
-          })
+          fetch(api + '/register', this.post(this.register))
+            .then((response) => {
+              return response.json()
+            })
+            .then((data) => {
+              if (data.toString() === '1') {
+                self.tip.status = 'success'
+                self.tip.message = 'Register successful!'
+                self.$emit('update')
+                setTimeout(() => {
+                  self.tip.message = 'Redirecting in 2 seconds.'
+                }, 1000)
+                setTimeout(() => {
+                  self.$router.push('/')
+                }, 2000)
+              } else if (data.toString() === '0') {
+                self.tip.status = 'fail'
+                self.tip.message = 'Register failed!'
+                self.register.user_name = null
+                self.register.user_password = null
+                self.register.confirm_password = null
+                setTimeout(() => {
+                  self.tip.status = null
+                  self.tip.message = null
+                }, 2000)
+              }
+            })
         }
       }
     }

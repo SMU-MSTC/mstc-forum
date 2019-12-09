@@ -7,11 +7,27 @@ import 'bootstrap'
 import 'popper.js'
 import 'bootstrap/dist/css/bootstrap.css'
 
+function extract(form) {
+  const formData = new FormData()
+  for (const key in form) {
+    if (form.hasOwnProperty(key))
+      formData.append(key, form[key])
+  }
+  return formData
+}
+
+function post(form) {
+  return {
+    method: 'POST',
+    body: extract(form),
+  }
+}
+
 global.jquery = jquery
-global.$ = jquery
 global.api = 'http://forum.localhost/api'
 global.md5 = md5
 
+Vue.prototype.post = post
 Vue.config.productionTip = false
 
 new Vue({

@@ -8,7 +8,8 @@
           <label for="board_name" class="sr-only">Board Name</label>
           <input v-model="create.board_name" type="text" id="board_name" class="form-control" placeholder="Board Name" required autofocus>
           <label for="board_intro" class="sr-only">Board Intro</label>
-          <textarea v-model="create.board_intro" type="text" id="board_intro" class="form-control" rows="3" placeholder="Board Intro"></textarea>
+          <textarea v-model="create.board_intro" type="text" id="board_intro"
+                    class="form-control" rows="3" placeholder="Board Intro"/>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
@@ -57,26 +58,30 @@
     methods: {
       submit() {
         const self = this
-        $.post(api + '/board', this.create).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Create successfully!'
-            self.$emit('update')
-            setTimeout(() => {
-              self.tip.message = 'Redirecting in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.$router.push('/')
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Create failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/board', this.post(this.create))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Create successfully!'
+              self.$emit('update')
+              setTimeout(() => {
+                self.tip.message = 'Redirecting in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.$router.push('/')
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Create failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       }
     }
   }

@@ -42,9 +42,13 @@
     beforeMount() {
       const self = this
       self.$emit('update')
-      $.get(api + '/', (data) => {
-        self.boards = data.boards
-      })
+      fetch(api + '/')
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          self.boards = data.boards
+        })
     }
   }
 </script>

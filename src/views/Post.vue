@@ -6,9 +6,11 @@
       <div class="container">
         <form @submit.prevent="submit" class="post-form">
           <label for="thread_title" class="sr-only">Thread Title</label>
-          <input v-model="post.thread_title" type="text" id="thread_title" class="form-control" placeholder="Thread Title" required autofocus>
+          <input v-model="threadPost.thread_title" type="text" id="thread_title" class="form-control" placeholder="Thread Title" required autofocus>
           <label for="thread_content" class="sr-only">Thread Content</label>
-          <textarea v-model="post.thread_content" type="text" id="thread_content" class="form-control" rows="3" placeholder="Thread Content"></textarea>
+          <textarea v-model="threadPost.thread_content" type="text"
+                    id="thread_content" class="form-control" rows="3"
+                    placeholder="Thread Content"/>
           <div v-if="tip.status === 'success'" class="alert alert-success">{{tip.message}}</div>
           <div v-if="tip.status === 'warn'" class="alert alert-warning">{{tip.message}}</div>
           <div v-if="tip.status === 'fail'" class="alert alert-danger">{{tip.message}}</div>
@@ -49,7 +51,7 @@
           board_name: null,
           board_intro: null
         },
-        post: {
+        threadPost: {
           thread_title: null,
           thread_content: null
         },
@@ -64,35 +66,43 @@
       submit() {
         const self = this
         const board_id = this.$route.params.board_id
-        $.post(api + '/post?board_id=' + board_id, this.post).done((data) => {
-          if (data.toString() === '1') {
-            self.tip.status = 'success'
-            self.tip.message = 'Post successfully!'
-            self.$emit('update')
-            setTimeout(() => {
-              self.tip.message = 'Redirecting in 2 seconds.'
-            }, 1000)
-            setTimeout(() => {
-              self.$router.push('/board/' + board_id)
-            }, 2000)
-          } else if (data.toString() === '0') {
-            self.tip.status = 'fail'
-            self.tip.message = 'Post failed!!'
-            setTimeout(() => {
-              self.tip.status = null
-              self.tip.message = null
-            }, 2000)
-          }
-        })
+        fetch(api + '/post?board_id=' + board_id, this.post(this.threadPost))
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            if (data.toString() === '1') {
+              self.tip.status = 'success'
+              self.tip.message = 'Post successfully!'
+              self.$emit('update')
+              setTimeout(() => {
+                self.tip.message = 'Redirecting in 2 seconds.'
+              }, 1000)
+              setTimeout(() => {
+                self.$router.push('/board/' + board_id)
+              }, 2000)
+            } else if (data.toString() === '0') {
+              self.tip.status = 'fail'
+              self.tip.message = 'Post failed!!'
+              setTimeout(() => {
+                self.tip.status = null
+                self.tip.message = null
+              }, 2000)
+            }
+          })
       }
     },
     beforeMount() {
       const self = this
       const board_id = this.$route.params.board_id
-      $.get(api + '/post?board_id=' + board_id, (data) => {
-        self.board = data.board
-        self.loaded = true
-      })
+      fetch(api + '/post?board_id=' + board_id)
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          self.board = data.board
+          self.loaded = true
+        })
     }
   }
 </script>

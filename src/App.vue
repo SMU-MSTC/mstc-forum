@@ -13,17 +13,18 @@
       }
     },
     beforeMount() {
-      const self = this
-      $.get(api + '/', (data) => {
-        self.session = data.session
-      })
+      this.update()
     },
     methods: {
       update() {
         const self = this
-        $.get(api + '/', (data) => {
-          self.session = data.session
-        })
+        fetch(api + '/')
+          .then((response) => {
+            return response.json()
+          })
+          .then((data) => {
+            self.session = data.session
+          })
       }
     }
   }

@@ -25,7 +25,8 @@
           <label for="user_name" class="sr-only">Phone number</label>
           <input v-model="update.user_tel" type="tel" id="user_tel" class="form-control" placeholder="Phone number">
           <label for="user_intro" class="sr-only">Intro</label>
-          <textarea v-model="update.user_intro" type="text" id="user_intro" class="form-control" rows="3" placeholder="Intro"></textarea>
+          <textarea v-model="update.user_intro" type="text" id="user_intro"
+                    class="form-control" rows="3" placeholder="Intro"/>
           <div v-if="tip.status === 'success'" class="alert alert-success">
             {{tip.message}}
           </div>
@@ -155,17 +156,25 @@
       },
       grant(user_id) {
         const self = this
-        $.post(api + '/user?user_id=' + user_id, { grant: user_id }).done(() => {
-          self.$emit('update')
-          self.$emit('reload')
-        })
+        fetch(api + '/user?user_id=' + user_id, this.post({ grant: user_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.$emit('update')
+            self.$emit('reload')
+          })
       },
       revoke(user_id) {
         const self = this
-        $.post(api + '/user?user_id=' + user_id, { revoke: user_id }).done(() => {
-          self.$emit('update')
-          self.$emit('reload')
-        })
+        fetch(api + '/user?user_id=' + user_id, this.post({ revoke: user_id }))
+          .then((response) => {
+            return response.json()
+          })
+          .then(() => {
+            self.$emit('update')
+            self.$emit('reload')
+          })
       },
       submit() {
         const self = this
@@ -182,28 +191,32 @@
         } else {
           this.update.user_password = md5(this.update.user_password)
           this.update.new_password = (this.update.new_password) ? md5(this.update.new_password) : null
-          $.post(api + '/user?user_id=' + user_id, this.update).done((data) => {
-            if (data.toString() === '1') {
-              self.tip.status = 'success'
-              self.tip.message = 'Update successful!'
-              self.$emit('update')
-              setTimeout(() => {
-                self.tip.message = 'Redirecting in 3 seconds.'
-              }, 1000)
-              setTimeout(() => {
-                self.$router.push('/')
-              }, 3000)
-            } else if (data.toString() === '0') {
-              self.tip.status = 'fail'
-              self.tip.message = 'Update failed!'
-              self.update.user_password = null
-              self.update.new_password = null
-              setTimeout(() => {
-                self.tip.status = null
-                self.tip.message = null
-              }, 2000)
-            }
-          })
+          fetch(api + '/user?user_id=' + user_id, this.post(this.update))
+            .then((response) => {
+              return response.json()
+            })
+            .then((data) => {
+              if (data.toString() === '1') {
+                self.tip.status = 'success'
+                self.tip.message = 'Update successful!'
+                self.$emit('update')
+                setTimeout(() => {
+                  self.tip.message = 'Redirecting in 3 seconds.'
+                }, 1000)
+                setTimeout(() => {
+                  self.$router.push('/')
+                }, 3000)
+              } else if (data.toString() === '0') {
+                self.tip.status = 'fail'
+                self.tip.message = 'Update failed!'
+                self.update.user_password = null
+                self.update.new_password = null
+                setTimeout(() => {
+                  self.tip.status = null
+                  self.tip.message = null
+                }, 2000)
+              }
+            })
         }
       }
     }
